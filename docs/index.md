@@ -6,7 +6,7 @@ nav_exclude: true
 
 # description
 
-`fdrtd` is a free and open source implementation of `federated secure computing`,
+**fdrtd** is a free and open source implementation of **federated secure computing**,
 a modern microservice architecture for privacy-preserving computation:
 
 - [x] multi-protocol technology platform (e.g. secure multipary computation)
