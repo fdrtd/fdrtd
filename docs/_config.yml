@@ -8,11 +8,11 @@ url: "https://fdrtd.github.io"
 back_to_top: true
 back_to_top_text: "back to top"
 
-footer_content: "technical documentation of the <a href=\"https://github.com/fdrtd\">fdrtd</a> project. provided under a <a href=\"https://github.com/fdrtd/docs/blob/main/LICENSE.txt\">MIT license</a>."
+footer_content: "technical documentation of the <a href='https://github.com/fdrtd'>fdrtd</a> project."
 
 gh_edit_link: true
 gh_edit_link_text: "edit this page on GitHub"
-gh_edit_repository: "https://github.com/fdrtd/test"
+gh_edit_repository: "https://github.com/fdrtd/fdrtd"
 gh_edit_branch: "main"
 gh_edit_source: "docs"
 gh_edit_view_mode: "edit"
