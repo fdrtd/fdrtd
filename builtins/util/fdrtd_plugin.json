@@ -1,0 +1,17 @@
+{
+  "microservices":
+  [
+    {
+      "identifiers": {
+        "namespace": "fdrtd",
+        "plugin": "Util",
+        "version": "0.2.0",
+        "microservice": "KeyValueStorage"
+      },
+      "classfile": "kvstorage.py",
+      "classname": "KeyValueStorage",
+      "language": "Python",
+      "public": ["create", "store", "retrieve", "exists", "delete"]
+    }
+  ]
+}

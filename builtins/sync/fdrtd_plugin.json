@@ -1,0 +1,29 @@
+{
+  "microservices":
+  [
+    {
+      "identifiers": {
+        "namespace": "fdrtd",
+        "plugin": "Sync",
+        "version": "0.2.0",
+        "microservice": "Barrier"
+      },
+      "classfile": "barrier.py",
+      "classname": "Barrier",
+      "language": "Python",
+      "public": ["create", "arrive", "arrived", "depart", "departed", "reset", "delete"]
+    },
+    {
+      "identifiers": {
+        "namespace": "fdrtd",
+        "plugin": "Sync",
+        "version": "0.2.0",
+        "microservice": "Broadcast"
+      },
+      "classfile": "broadcast.py",
+      "classname": "Broadcast",
+      "language": "Python",
+      "public": ["create", "send", "receive", "delete"]
+    }
+  ]
+}
