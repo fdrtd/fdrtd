@@ -1,0 +1,290 @@
+openapi: 3.0.0
+
+info:
+
+  title: fdrtd API
+  version: 0.2.0
+  description: https://github.com/fdrtd
+
+  contact:
+    name: fdrtd support
+    email: support@fdrtd.com
+    url: https://www.fdrtd.com
+
+  license:
+    # identifier: MIT
+    # SPDX identifiers are introduced in OpenAPI spec 3.1.0
+    name: MIT License
+    url: https://github.com/fdrtd/api/blob/main/LICENSE.txt
+
+externalDocs:
+  description: technical documentation
+  url: https://www.fdrtd.com/docs
+
+paths:
+
+  /:
+
+    get:
+      summary: list microservices
+      description: list all installed microservices and their properties.
+      operationId: list_microservices
+      responses:
+        '200':
+          $ref: '#/components/responses/ResponseMicroservices'
+        '500':
+          $ref: '#/components/responses/ErrorInternalServerError'
+
+    put:
+      summary: select microservice
+      description: given some partial identifiers, find a matching microservice, and return a handle.
+                   for a wildcard search, the request body may hold an incomplete dictionary of identifiers.
+                   if there is a match, the response will be a server-side handle to the microservice.
+                   note that these handles are static, are safe to store client-side, and should be reused.
+      operationId: select_microservice
+      requestBody:
+        $ref: '#/components/requestBodies/SelectMicroservice'
+      responses:
+        '202':
+          $ref: '#/components/responses/ResponseHandle'
+        '500':
+          $ref: '#/components/responses/ErrorInternalServerError'
+        '501':
+          $ref: '#/components/responses/ErrorNotImplemented'
+
+    post:
+      summary: call microservice
+      description: invoke some member function of a microservice and supply arguments for its execution.
+                   a successful function call will return either
+                   * nothing (HTTP 204)
+                   * some final result (HTTP 200)
+                   * an endpoint of another microservice (HTTP 202)
+                   * an endpoint of another microservice, and a callback handle to additional
+                     server-side arguments, to be passed on to that microservice (HTTP 201).
+      operationId: call_microservice
+      requestBody:
+        $ref: '#/components/requestBodies/CallMicroservice'
+      responses:
+        '200':
+          $ref: '#/components/responses/ResponseDictionary'
+        '201':
+          $ref: '#/components/responses/ResponseCallback'
+        '202':
+          $ref: '#/components/responses/ResponseHandle'
+        '204':
+          $ref: '#/components/responses/ResponseNoContent'
+        '400':
+          $ref: '#/components/responses/ErrorBadRequest'
+        '401':
+          $ref: '#/components/responses/ErrorUnauthorized'
+        '403':
+          $ref: '#/components/responses/ErrorForbidden'
+        '404':
+          $ref: '#/components/responses/ErrorNotFound'
+        '405':
+          $ref: '#/components/responses/ErrorMethodNotAllowed'
+        '500':
+          $ref: '#/components/responses/ErrorInternalServerError'
+        '501':
+          $ref: '#/components/responses/ErrorNotImplemented'
+        '502':
+          $ref: '#/components/responses/ErrorBadGateway'
+        '503':
+          $ref: '#/components/responses/ErrorServiceUnavailable'
+        '504':
+          $ref: '#/components/responses/ErrorGatewayTimeout'
+
+
+components:
+
+  schemas:
+
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+        stacktrace:
+          type: string
+      required:
+        - code
+        - message
+
+
+  requestBodies:
+
+    SelectMicroservice:
+      description: properties of the desired microservice, as a dictionary of key-value pairs.
+                   typical keys might include 'namespace' (of the vendor), 'microservice' (obviously),
+                   'version' (at the moment, the search returns only identical matches),
+                   and any combination of other properties as specified by the microservice provider.
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            additionalProperties: true
+
+    CallMicroservice:
+      description: <handle> is a server-side handle to the microservice (found by select_microservice).
+                   <function> is the name of the member function of the microservice to be called.
+                   <parameters> is a dictionary of key-value pairs which are provided to the function as named arguments.
+                   <callback> is an optional handle to additional arguments stored server-side.
+                   if it is present, the server will look up these arguments and provide them to the
+                   function as additional named arguments.
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - handle
+              - function
+              - parameters
+            properties:
+              handle:
+                type: string
+                format: uuid
+              function:
+                type: string
+              parameters:
+                type: object
+                additionalProperties: true
+              callback:
+                oneOf:
+                  - type: string
+                    format: uuid
+                  - type: object
+                    additionalProperties: true
+
+
+  responses:
+
+    ResponseMicroservices: # 200
+      description: a list of microservices
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: object
+              additionalProperties: true
+              required:
+                - identifiers
+              properties:
+                identifiers:
+                  type: object
+                  additionalProperties: true
+
+    ResponseDictionary: # 200
+      description: general response, a dictionary of key-value pairs
+      content:
+        application/json:
+          schema:
+            type: object
+            additionalProperties: true
+
+    ResponseCallback: # 201
+      description: a handle to a server-side microservice,
+                   and a handle to additional arguments stored server-side,
+                   to be looked up and passed in function calls to the microservice
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - handle
+              - callback
+            properties:
+              handle:
+                type: string
+                format: uuid
+              callback:
+                oneOf:
+                  - type: string
+                    format: uuid
+                  - type: object
+                    additionalProperties: true
+
+    ResponseHandle: # 202
+      description: a handle to a server-side microservice
+      content:
+        application/json:
+          schema:
+            type: string
+            format: uuid
+
+    ResponseNoContent: # 204
+      description: No Content
+
+    ErrorBadRequest: # 400
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    ErrorUnauthorized: # 401
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    ErrorForbidden: # 403
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    ErrorNotFound: # 404
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    ErrorMethodNotAllowed: # 405
+      description: Method Not Allowed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    ErrorInternalServerError: # 500
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    ErrorNotImplemented: # 501
+      description: Not Implemented
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    ErrorBadGateway: # 502
+      description: Bad Gateway
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    ErrorServiceUnavailable: # 503
+      description: Service Unavailable
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    ErrorGatewayTimeout: # 504
+      description: Gateway Timeout
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
