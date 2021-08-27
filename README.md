@@ -25,7 +25,7 @@ to run a **fdrtd** server, clone this repo and start the included webserver:
 
 you can interact with the server through your browser:
 
-[localhost:55500/ui](localhost:55500/ui)
+[localhost:55500/ui](http://localhost:55500/ui)
 
 
 # resources
