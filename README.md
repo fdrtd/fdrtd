@@ -1,6 +1,6 @@
 ![license](https://img.shields.io/github/license/fdrtd/fdrtd)
 
-![swagger-validator](https://img.shields.io/swagger/valid/3.0?specUrl=https%3A%2F%2Fraw.githubusercontent.com%2Ffdrtd%2Ffdrtd%2Fapi%2Fmain%2Fopenapi.yaml)
+![swagger-validator](https://img.shields.io/swagger/valid/3.0?specUrl=https%3A%2F%2Fraw.githubusercontent.com%2Ffdrtd%2Ffdrtd%2Fmain%2Fapi%2Fopenapi.yaml)
 
 
 # description
@@ -25,7 +25,7 @@ to run a **fdrtd** server, clone this repo and start the included webserver:
 
 you can interact with the server through your browser:
 
-    [localhost:55500/ui](localhost:55500/ui)
+[localhost:55500/ui](localhost:55500/ui)
 
 
 # resources
