@@ -1,6 +1,7 @@
 ![license](https://img.shields.io/github/license/fdrtd/fdrtd)
 ![swagger-validator](https://img.shields.io/swagger/valid/3.0?specUrl=https%3A%2F%2Fraw.githubusercontent.com%2Ffdrtd%2Ffdrtd%2Fmain%2Fapi%2Fopenapi.yaml)
 ![CodeQL](https://github.com/fdrtd/fdrtd/workflows/CodeQL/badge.svg)
+![Pylint](https://raw.githubusercontent.com/fdrtd/fdrtd/main/.github/badges/pylint.svg)
 
 
 # description
