@@ -19,10 +19,19 @@ def discover_microservices(path, bus):
                     spec.loader.exec_module(mod)
                     uuid = str(_uuid.uuid4())
                     cls = getattr(mod, ms['classname'], None)
+                    instance = cls(bus, uuid)
+                    public = instance.make_public()
+                    if 'public' in ms:
+                        public.update({function: getattr(instance, function) for function in ms['public']})
+                    private = {}
+                    for attr in dir(instance):
+                        if ('__' not in attr) and (callable(getattr(instance, attr))) and (attr not in public):
+                            private[attr] = getattr(instance, attr)
                     microservices[uuid] = {
                         **ms,
                         'class': cls,
-                        'instance': cls(bus, uuid),
-                        'public': ms['public']
+                        'instance': instance,
+                        'public': public,
+                        'private': private
                     }
     return microservices

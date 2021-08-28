@@ -19,7 +19,8 @@ class Bus:
     def list_microservices(self):
         result = []
         for uuid, microservice in self.microservices.items():
-            result.append({'identifiers': microservice['identifiers']})
+            result.append({'identifiers': microservice['identifiers'],
+                           'public_functions': list(microservice['public'].keys())})
         return result
 
     def select_microservice(self, requirements):
@@ -44,14 +45,12 @@ class Bus:
             raise fdrtd.server.exceptions.MicroserviceNotFound(handle)
         microservice = self.microservices[handle]
 
-        if function in microservice['instance'].make_public():
-            fn = microservice['instance'].make_public()[function]
-        elif function in microservice.get('public', {}):
-            fn = getattr(microservice['instance'], function)
+        if function in microservice['public']:
+            fn = microservice['public'][function]
         elif public:
-            raise fdrtd.server.exceptions.FunctionNotPublic(function)
-        elif hasattr(microservice['instance'], function):
-            fn = getattr(microservice['instance'], function)
+            raise fdrtd_server.exceptions.FunctionNotPublic(function)
+        elif function in microservice['private']:
+            fn = microservice['private'][function]
         else:
             raise fdrtd.server.exceptions.FunctionNotFound(function)
 
