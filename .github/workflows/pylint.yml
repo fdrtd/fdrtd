@@ -28,4 +28,9 @@ jobs:
     - name: Create badge
       run: |
         PYLINT_SCORE=$(sed -n 's/^Your code has been rated at \([-0-9.]*\)\/.*/\1/p' pylint.txt)
-        anybadge --label=Pylint --file=pylint/pylint.svg --value=$PYLINT_SCORE 4=red 6=orange 8=yellow 9=green
+        anybadge --label=Pylint --file=pylint.svg --value=$PYLINT_SCORE 4=red 6=orange 8=yellow 9=green
+    - name: Upload pylint.svg as artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: pylint badge
+        path: pylint.svg
