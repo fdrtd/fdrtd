@@ -36,7 +36,6 @@ jobs:
         path: pylint.svg
     - name: Push badge to repo
       run: |
-        mkdir ./.github
         mkdir ./.github/badges
         cp pylint.svg ./.github/badges
         git config --global user.name "github-actions[bot]"
