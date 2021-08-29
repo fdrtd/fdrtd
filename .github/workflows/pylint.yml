@@ -35,6 +35,6 @@ jobs:
         cp pylint.svg ./.github/badges
         git config --global user.name "github-actions[bot]"
         git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-        git add ./.github/badges/pylint.svg
+        git add --force ./.github/badges/pylint.svg
         git commit -m "Pylint action"
-        git push
+        git push --force
