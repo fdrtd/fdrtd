@@ -2,6 +2,7 @@
 
 import connexion
 import sys
+import os
 import waitress
 
 from fdrtd.webserver.encoder import JSONEncoder
@@ -18,12 +19,14 @@ def main():
 
     port = 8080
     plugin_directory = "fdrtd"
+    sys.path.append(os.path.abspath("fdrtd"))
     for arg in sys.argv:
         if arg[:7] == "--port=":
             port = int(arg[7:])
         if arg[:19] == "--plugin_directory=":
             plugin_directory = arg[19:]
-
+            sys.path.append(os.path.abspath(plugin_directory))
+    
     bus = Bus()
     microservices = discover_microservices(plugin_directory, bus)
     bus.set_microservices(microservices)
