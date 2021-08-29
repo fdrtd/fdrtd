@@ -20,7 +20,7 @@ class Bus:
         result = []
         for uuid, microservice in self.microservices.items():
             result.append({'identifiers': microservice['identifiers'],
-                           'public_functions': list(microservice['public'].keys())})
+                           'public': list(microservice['public'].keys())})
         return result
 
     def select_microservice(self, requirements):
