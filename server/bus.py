@@ -48,7 +48,7 @@ class Bus:
         if function in microservice['public']:
             fn = microservice['public'][function]
         elif public:
-            raise fdrtd_server.exceptions.FunctionNotPublic(function)
+            raise fdrtd.server.exceptions.FunctionNotPublic(function)
         elif function in microservice['private']:
             fn = microservice['private'][function]
         else:
