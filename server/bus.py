@@ -1,29 +1,37 @@
+"""routines to interact with the bus of microservices"""
+
 from flask import current_app
 
 import fdrtd.server.exceptions
 
 
 def get_bus():
+    """get the singleton bus of the server application"""
     with current_app.app_context():
         return current_app.bus
 
 
 class Bus:
+    """the bus holds, selects, and calls microservices"""
 
     def __init__(self):
+        """initialize the bus"""
         self.microservices = {}
 
     def set_microservices(self, microservices):
+        """set microservices discovered on server startup (internal use only)"""
         self.microservices = microservices
 
     def list_microservices(self):
+        """list all microservices and their public functions"""
         result = []
-        for uuid, microservice in self.microservices.items():
+        for _, microservice in self.microservices.items():
             result.append({'identifiers': microservice['identifiers'],
                            'public': list(microservice['public'].keys())})
         return result
 
     def select_microservice(self, requirements):
+        """select a microservice, given a number of key-value pairs"""
 
         def test(identifiers):
             for requirement in requirements:
@@ -39,23 +47,26 @@ class Bus:
 
         raise fdrtd.server.exceptions.MicroserviceNotFound(requirements)
 
-    def call_microservice(self, handle, function, parameters=None, callback=None, public=False):
+    def call_microservice(self, handle, function,
+                          parameters=None, callback=None, public=False):
+        """call a microservice by its handle, invoke one of its functions"""
 
         if handle not in self.microservices:
             raise fdrtd.server.exceptions.MicroserviceNotFound(handle)
         microservice = self.microservices[handle]
 
         if function in microservice['public']:
-            fn = microservice['public'][function]
+            pointer = microservice['public'][function]
         elif public:
             raise fdrtd.server.exceptions.FunctionNotPublic(function)
         elif function in microservice['private']:
-            fn = microservice['private'][function]
+            pointer = microservice['private'][function]
         else:
             raise fdrtd.server.exceptions.FunctionNotFound(function)
 
         if callback is None:
-            result = fn() if parameters is None else fn(**parameters)
+            result = pointer() if parameters is None else pointer(**parameters)
         else:
-            result = fn(callback=callback) if parameters is None else fn(**parameters, callback=callback)
+            result = pointer(callback=callback) if parameters is None\
+                else pointer(**parameters, callback=callback)
         return result
