@@ -1,4 +1,6 @@
-"""base class for microservices"""
+"""
+contains class Microservice
+"""
 
 import fdrtd.server.exceptions
 from fdrtd.server.callback import Callback

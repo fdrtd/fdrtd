@@ -1,10 +1,12 @@
-"""routines to interact with server-side objects through callbacks"""
+"""
+contains class Callback
+"""
 
 from fdrtd.server.bus import get_bus
 
 
 class Callback(dict):
-    """a handle to a server side object"""
+    """Callback passes parameters from earlier API calls back to the server"""
 
     def __init__(self, handle, callback):
 

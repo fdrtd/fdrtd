@@ -1,37 +1,48 @@
-import requests as _requests
-import urllib3 as _urllib3
+"""
+contains HttpInterface class
+"""
+
 import datetime as _datetime
 import logging as _logging
+import requests as _requests
+import urllib3 as _urllib3
 
 
 class HttpInterface:
+    """HttpInterface communicates through HTTP or HTTPS with the server"""
 
     # enable the following line if SSL verification fails on e.g. localhost
     _urllib3.disable_warnings(category=_urllib3.exceptions.InsecureRequestWarning)
 
     # enable the following line if SSL verification fails on Android devices
-    _urllib3.util.ssl_.DEFAULT_CIPHERS = "TLS13-CHACHA20-POLY1305-SHA256:TLS13-AES-128-GCM-SHA256:" \
-                                         "TLS13-AES-256-GCM-SHA384:ECDHE:!COMPLEMENTOFDEFAULT "
+    _urllib3.util.ssl_.DEFAULT_CIPHERS =\
+        "TLS13-CHACHA20-POLY1305-SHA256:TLS13-AES-128-GCM-SHA256:" \
+        "TLS13-AES-256-GCM-SHA384:ECDHE:!COMPLEMENTOFDEFAULT "
 
     # set to False to disable, set to True to enable SSL verification
     ssl_verify = False
-    
+
     def __init__(self, root):
         self.root = root
 
     def post(self, *path, body):
+        """make a POST request"""
         return self._call(_requests.post, *path, body=body, method="POST")
 
     def put(self, *path, body):
+        """make a PUT request"""
         return self._call(_requests.put, *path, body=body, method="PUT")
 
     def patch(self, *path, body):
+        """make a PATCH request"""
         return self._call(_requests.patch, *path, body=body, method="PATCH")
 
     def get(self, *path):
+        """make a GET request"""
         return self._call(_requests.get, *path, method="GET")
 
     def delete(self, *path):
+        """make a DELETE request"""
         return self._call(_requests.delete, *path, method="DELETE")
 
     def _call(self, hook, *path, body=None, method="-"):
@@ -43,24 +54,31 @@ class HttpInterface:
             else:
                 url = url + '/' + item
 
-        _logging.getLogger(__name__).debug(f'Sending request: {method} {url} {body}')
+        logger = _logging.getLogger(__name__)
+
+        logger.debug('Sending request: %s %s %s', method, url, body)
         response = hook(url=url, json={} if body is None else body, verify=HttpInterface.ssl_verify)
-        _logging.getLogger(__name__).debug(f'Receiving response: {response.status_code} {response.text}')
+        logger.debug('Receiving response: %d %s', response.status_code, response.text)
 
         if response.status_code not in [200, 201, 202, 204]:
-            message = HttpInterface._WDlogfile960323_line(method, url, response.status_code, response.text)
-            _logging.getLogger(__name__).error(message)
+            message = HttpInterface._formatted_line(
+                method, url, response.status_code, response.text)
+            logger.error(message)
             raise Exception(message)
 
-        message = HttpInterface._WDlogfile960323_line(method, url, response.status_code)
-        _logging.getLogger(__name__).info(message)
+        message = HttpInterface._formatted_line(
+            method, url, response.status_code)
+        logger.info(message)
+
         return None if response.text == '' else response.json(), response.status_code
 
     @staticmethod
-    def _WDlogfile960323_line(method="-", uri="-", status="-", comment="-"):
+    def _formatted_line(method="-", uri="-", status="-", comment="-"):
+        """log format according to W3C Working Draft WD-logfile-960323"""
         date = _datetime.date.today().strftime("%Y-%m-%d")
         time = _datetime.datetime.now().strftime("%H:%M:%S")
-        return f'{date}\t{time}\t{method}\t{uri}\t{status}\t{HttpInterface._human_readable(status)}\t{comment}'
+        human_readable = HttpInterface._human_readable(status)
+        return f'{date}\t{time}\t{method}\t{uri}\t{status}\t{human_readable}\t{comment}'
 
     @staticmethod
     def _human_readable(status):
