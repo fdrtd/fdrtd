@@ -1,27 +1,39 @@
+"""
+contains class Api
+"""
+
 from fdrtd.client.handle import Handle
 
 
 class Api:
+    """
+    instances of API interact with the server-side fdrtd API
+    """
 
     def __init__(self, interface):
+        """initialise the API wrapper with an interface"""
         self.interface = interface
 
     def list_microservices(self):
-        response, code = self.interface.get()
+        """retrieve a list of microservices from the server"""
+        response, _ = self.interface.get()
         return response
 
     def select_microservice(self, **kwargs):
-        response, code = self.interface.put(body={**kwargs})
+        """connect to a matching microservice"""
+        response, _ = self.interface.put(body={**kwargs})
         endpoint = Handle(self, response, None)
         return endpoint
 
     def has_capabilities(self, **kwargs):
-        response, code = self.interface.put(body={**kwargs})
+        """check if there is a matching microservice"""
+        response, _ = self.interface.put(body={**kwargs})
         if response is None:
             return False
         return True
 
     def call_microservice(self, handle, function, parameters=None, callback=None):
+        "call a microservice on the server"
         response, code = self.interface.post(
             body={
                 'handle': handle,
