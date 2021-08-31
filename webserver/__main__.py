@@ -1,17 +1,22 @@
 #!/usr/bin/env python3
 
-import connexion
+"""
+the main module
+"""
+
 import sys
+import connexion
 import waitress
 
-from fdrtd.webserver.encoder import JSONEncoder
 from flask import current_app
 
-from fdrtd.server.discovery import discover_microservices
 from fdrtd.server.bus import Bus
+from fdrtd.server.discovery import discover_microservices
+from fdrtd.webserver.encoder import JSONEncoder
 
 
 def main():
+    """runs the webserver"""
 
     # enable the following line to log endpoint traffic
     # logging.basicConfig(level=logging.INFO)
