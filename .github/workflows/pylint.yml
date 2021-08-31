@@ -19,7 +19,7 @@ jobs:
         pip install pylint anybadge
     - name: Analysing the code with pylint
       run: |
-        pylint --fail-under=0 --disable=E0401 `find -regextype egrep -regex '(.*.py)$'` | tee pylint.txt
+        pylint --fail-under=0 --disable=E0401 --logging-format-style=fstr `find -regextype egrep -regex '(.*.py)$'` | tee pylint.txt
     - name: Upload pylint.txt as artifact
       uses: actions/upload-artifact@v2
       with:
