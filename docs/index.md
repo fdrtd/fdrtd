@@ -7,11 +7,15 @@ nav_order: 1
 # home
 {: .no_toc }
 
-## table of contents
-{: .no_toc .text-delta }
-
+<details open markdown="block">
+  <summary>
+    table of contents
+  </summary>
+  {: .text-delta }
 1. TOC
 {:toc}
+</details>
+
 
 ## welcome
 welcome to the technical documentation of the fdrtd open source project.
