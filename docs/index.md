@@ -20,7 +20,7 @@ nav_order: 1
 ## welcome
 welcome to the technical documentation of the fdrtd open source project.
 
-if this is your first visit, consider doing the [getting started](./tutorials/gettingstarted) tutorial.
+if this is your first visit, consider doing the [getting started](./tutorials/getting_started) tutorial.
 
 in case you have any questions, need help, or want to give feedback, please contact [support@fdrtd.com](mailto:support@fdrtd.com).
 
