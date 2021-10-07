@@ -18,8 +18,8 @@ info:
     url: https://github.com/fdrtd/api/blob/main/LICENSE.txt
 
 externalDocs:
-  description: technical documentation
-  url: https://www.fdrtd.com/docs
+  description: developer documentation
+  url: https://fdrtd.github.io/fdrtd/
 
 paths:
 
