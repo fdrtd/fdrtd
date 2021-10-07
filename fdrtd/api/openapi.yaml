@@ -3,7 +3,7 @@ openapi: 3.0.0
 info:
 
   title: fdrtd API
-  version: 0.2.0
+  version: 0.3.0
   description: https://github.com/fdrtd
 
   contact:
