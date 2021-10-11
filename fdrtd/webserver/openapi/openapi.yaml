@@ -9,316 +9,276 @@ info:
     name: MIT License
     url: https://github.com/fdrtd/api/blob/main/LICENSE.txt
   title: fdrtd API
-  version: 0.2.0
+  version: 0.3.0
 externalDocs:
-  description: technical documentation
-  url: https://www.fdrtd.com/docs
+  description: developer documentation
+  url: https://fdrtd.github.io/fdrtd/
 servers:
 - url: /
 paths:
-  /:
-    get:
-      description: list all installed microservices and their properties.
-      operationId: list_microservices
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                items:
-                  additionalProperties: true
-                  properties:
-                    identifiers:
-                      additionalProperties: true
-                      type: object
-                  required:
-                  - identifiers
-                  type: object
-                type: array
-          description: a list of microservices
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Internal Server Error
-      summary: list microservices
-      x-openapi-router-controller: fdrtd.webserver.controllers.default_controller
-    post:
-      description: invoke some member function of a microservice and supply arguments
-        for its execution. a successful function call will return either * nothing
-        (HTTP 204) * some final result (HTTP 200) * an endpoint of another microservice
-        (HTTP 202) * an endpoint of another microservice, and a callback handle to
-        additional server-side arguments, to be passed on to that microservice (HTTP
-        201).
-      operationId: call_microservice
-      requestBody:
-        $ref: '#/components/requestBodies/CallMicroservice'
+  /representation/{representation_uuid}:
+    delete:
+      description: release the representation of a server-side object
+      operationId: release_representation
+      parameters:
+      - explode: false
+        in: path
+        name: representation_uuid
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
       responses:
         "200":
           content:
             application/json:
               schema:
                 additionalProperties: true
+                properties:
+                  type:
+                    type: string
                 type: object
-          description: general response, a dictionary of key-value pairs
-        "201":
+          description: Success
+        default:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_201'
-          description: a handle to a server-side microservice, and a handle to additional
-            arguments stored server-side, to be looked up and passed in function calls
-            to the microservice
-        "202":
+                $ref: '#/components/schemas/inline_response_default'
+          description: Error
+      summary: release a representation
+      x-openapi-router-controller: fdrtd.webserver.controllers.default_controller
+    get:
+      description: download a serialized version of a server-side object itself (instead
+        of its representation). think of this as a de-referencing operation, downloading
+        the object to the client.
+      operationId: download_representation
+      parameters:
+      - explode: false
+        in: path
+        name: representation_uuid
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        "200":
           content:
             application/json:
               schema:
-                format: uuid
-                type: string
-          description: a handle to a server-side microservice
-        "204":
-          description: No Content
-        "400":
+                additionalProperties: true
+                properties:
+                  type:
+                    type: string
+                type: object
+          description: Success
+        default:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
-          description: Bad Request
-        "401":
+                $ref: '#/components/schemas/inline_response_default'
+          description: Error
+      summary: download a serialized version of a server-side object
+      x-openapi-router-controller: fdrtd.webserver.controllers.default_controller
+    patch:
+      description: call a server-side object such as a static function, a member function,
+        or in case of a class, its constructor
+      operationId: call_representation
+      parameters:
+      - explode: false
+        in: path
+        name: representation_uuid
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      requestBody:
+        $ref: '#/components/requestBodies/ArgsKwargs'
+      responses:
+        "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
-          description: Unauthorized
-        "403":
+                additionalProperties: true
+                properties:
+                  type:
+                    type: string
+                type: object
+          description: Success
+        default:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
-          description: Forbidden
-        "404":
+                $ref: '#/components/schemas/inline_response_default'
+          description: Error
+      summary: call a server-side object
+      x-openapi-router-controller: fdrtd.webserver.controllers.default_controller
+  /representation/{representation_uuid}/{attribute_name}:
+    get:
+      description: create a representation of an attribute of a representation
+      operationId: create_attribute
+      parameters:
+      - explode: false
+        in: path
+        name: representation_uuid
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: attribute_name
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
-          description: Not Found
-        "405":
+                additionalProperties: true
+                properties:
+                  type:
+                    type: string
+                type: object
+          description: Success
+        default:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
-          description: Method Not Allowed
-        "500":
+                $ref: '#/components/schemas/inline_response_default'
+          description: Error
+      summary: create a representation of an attribute of a representation
+      x-openapi-router-controller: fdrtd.webserver.controllers.default_controller
+  /representations:
+    get:
+      description: returns a list of server-side objects that are available to be
+        represented client-side. typical choices are classes, static functions, and
+        other singletons. instances, their attributes, and other variables may also
+        be referenced.
+      operationId: list_representations
+      responses:
+        "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
-          description: Internal Server Error
-        "501":
+                additionalProperties: true
+                properties:
+                  type:
+                    type: string
+                type: object
+          description: Success
+        default:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
-          description: Not Implemented
-        "502":
+                $ref: '#/components/schemas/inline_response_default'
+          description: Error
+      summary: list available server-side objects
+      x-openapi-router-controller: fdrtd.webserver.controllers.default_controller
+    post:
+      description: create a representation, a client-side reference to a server-side
+        object. the representation will be wrapped client-side, so that it may be
+        interacted with as if it were a local object.
+      operationId: create_representation
+      requestBody:
+        $ref: '#/components/requestBodies/ArgsKwargs'
+      responses:
+        "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
-          description: Bad Gateway
-        "503":
+                additionalProperties: true
+                properties:
+                  type:
+                    type: string
+                type: object
+          description: Success
+        default:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
-          description: Service Unavailable
-        "504":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Gateway Timeout
-      summary: call microservice
+                $ref: '#/components/schemas/inline_response_default'
+          description: Error
+      summary: create a representation
       x-openapi-router-controller: fdrtd.webserver.controllers.default_controller
     put:
-      description: given some partial identifiers, find a matching microservice, and
-        return a handle. for a wildcard search, the request body may hold an incomplete
-        dictionary of identifiers. if there is a match, the response will be a server-side
-        handle to the microservice. note that these handles are static, are safe to
-        store client-side, and should be reused.
-      operationId: select_microservice
+      description: upload an object to the server, and return a reference for future
+        interaction.
+      operationId: upload_representation
       requestBody:
-        $ref: '#/components/requestBodies/SelectMicroservice'
+        $ref: '#/components/requestBodies/ArgsKwargs'
       responses:
-        "202":
+        "200":
           content:
             application/json:
               schema:
-                format: uuid
-                type: string
-          description: a handle to a server-side microservice
-        "500":
+                additionalProperties: true
+                properties:
+                  type:
+                    type: string
+                type: object
+          description: Success
+        default:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
-          description: Internal Server Error
-        "501":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Not Implemented
-      summary: select microservice
+                $ref: '#/components/schemas/inline_response_default'
+          description: Error
+      summary: upload an object, and return its representation
       x-openapi-router-controller: fdrtd.webserver.controllers.default_controller
 components:
   requestBodies:
-    SelectMicroservice:
+    ArgsKwargs:
       content:
         application/json:
           schema:
-            additionalProperties: true
-            type: object
-      description: properties of the desired microservice, as a dictionary of key-value
-        pairs. typical keys might include 'namespace' (of the vendor), 'microservice'
-        (obviously), 'version' (at the moment, the search returns only identical matches),
-        and any combination of other properties as specified by the microservice provider.
-      required: true
-    CallMicroservice:
-      content:
-        application/json:
-          schema:
-            properties:
-              handle:
-                format: uuid
-                type: string
-              function:
-                type: string
-              parameters:
-                additionalProperties: true
-                type: object
-              callback:
-                oneOf:
-                - format: uuid
-                  type: string
-                - additionalProperties: true
-                  type: object
-            required:
-            - function
-            - handle
-            - parameters
-            type: object
-      description: <handle> is a server-side handle to the microservice (found by
-        select_microservice). <function> is the name of the member function of the
-        microservice to be called. <parameters> is a dictionary of key-value pairs
-        which are provided to the function as named arguments. <callback> is an optional
-        handle to additional arguments stored server-side. if it is present, the server
-        will look up these arguments and provide them to the function as additional
-        named arguments.
+            $ref: '#/components/schemas/ArgsKwargs'
+      description: an ordered list of unnamed arguments, followed by a key-value dictionary
+        of named arguments
       required: true
   responses:
-    ResponseMicroservices:
-      content:
-        application/json:
-          schema:
-            items:
-              additionalProperties: true
-              properties:
-                identifiers:
-                  additionalProperties: true
-                  type: object
-              required:
-              - identifiers
-              type: object
-            type: array
-      description: a list of microservices
-    ResponseDictionary:
+    ResponseOk:
       content:
         application/json:
           schema:
             additionalProperties: true
+            properties:
+              type:
+                type: string
             type: object
-      description: general response, a dictionary of key-value pairs
-    ResponseCallback:
+      description: Success
+    ResponseError:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/inline_response_201'
-      description: a handle to a server-side microservice, and a handle to additional
-        arguments stored server-side, to be looked up and passed in function calls
-        to the microservice
-    ResponseHandle:
-      content:
-        application/json:
-          schema:
-            format: uuid
-            type: string
-      description: a handle to a server-side microservice
-    ResponseNoContent:
-      description: No Content
-    ErrorBadRequest:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Bad Request
-    ErrorUnauthorized:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Unauthorized
-    ErrorForbidden:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Forbidden
-    ErrorNotFound:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Not Found
-    ErrorMethodNotAllowed:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Method Not Allowed
-    ErrorInternalServerError:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Internal Server Error
-    ErrorNotImplemented:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Not Implemented
-    ErrorBadGateway:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Bad Gateway
-    ErrorServiceUnavailable:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Service Unavailable
-    ErrorGatewayTimeout:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Gateway Timeout
+            $ref: '#/components/schemas/inline_response_default'
+      description: Error
   schemas:
-    Error:
+    ArgsKwargs:
+      additionalProperties: false
+      example:
+        args:
+        - ""
+        - ""
+        kwargs:
+          key: '{}'
+      properties:
+        args:
+          items: {}
+          type: array
+        kwargs:
+          additionalProperties: true
+          type: object
+      required:
+      - args
+      - kwargs
+      type: object
+    inline_response_default:
       properties:
         code:
           title: code
@@ -332,23 +292,5 @@ components:
       required:
       - code
       - message
-      title: Error
-      type: object
-    inline_response_201:
-      properties:
-        handle:
-          format: uuid
-          title: handle
-          type: string
-        callback:
-          oneOf:
-          - format: uuid
-            type: string
-          - additionalProperties: true
-            type: object
-          title: callback
-      required:
-      - callback
-      - handle
-      title: inline_response_201
+      title: inline_response_default
       type: object

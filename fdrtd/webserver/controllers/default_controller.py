@@ -3,40 +3,67 @@ contains the entry points of the API
 """
 
 from fdrtd.server.bus import get_bus
-from fdrtd.server.callback import Callback
 from fdrtd.server.exceptions import handle_exception
 
 
-def list_microservices():
-    """list all microservices and their public functions"""
+def list_representations():
+    """list available server-side objects"""
     try:
-        response = get_bus().list_microservices()
+        response = get_bus().list_representations()
         return response, 200  # OK
     except Exception as exception:
         return handle_exception(exception)
 
 
-def select_microservice(body):
-    """find a matching microservice"""
+def create_representation(body):
+    """create a representation"""
     try:
-        response = get_bus().select_microservice(body)
-        return response, 202  # Accepted
+        response = get_bus().create_representation(body)
+        return {'type': 'uuid', 'uuid': response}, 200  # OK
     except Exception as exception:
         return handle_exception(exception)
 
 
-def call_microservice(body):
-    """invoke a microservice's member function"""
+def upload_representation(body):
+    """upload an object, and return its representation"""
     try:
-        result = get_bus().call_microservice(body['handle'],
-                                             body['function'],
-                                             body['parameters'],
-                                             body.get('callback', None),
-                                             public=True)
-        if result is None:
-            return None, 204  # No Content
-        if isinstance(result, Callback):
-            return result, 202 if result['callback'] is None else 201
-        return result, 200
+        response = get_bus().upload_representation(body)
+        return {'type': 'uuid', 'uuid': response}, 200  # OK
+    except Exception as exception:
+        return handle_exception(exception)
+
+
+def call_representation(representation_uuid, body):
+    """call a server-side object"""
+    try:
+        response = get_bus().call_representation(representation_uuid, body)
+        return {'type': 'uuid', 'uuid': response}, 200  # OK
+    except Exception as exception:
+        return handle_exception(exception)
+
+
+def download_representation(representation_uuid):
+    """download a serialized version of a server-side object"""
+    try:
+        response = get_bus().download_representation(representation_uuid)
+        return {'type': 'object', 'object': response}, 200  # OK
+    except Exception as exception:
+        return handle_exception(exception)
+
+
+def release_representation(representation_uuid):
+    """release a representation"""
+    try:
+        get_bus().release_representation(representation_uuid)
+        return {'type': 'none'}, 200  # OK
+    except Exception as exception:
+        return handle_exception(exception)
+
+
+def create_attribute(representation_uuid, attribute_name):
+    """create a representation of an attribute of a representation"""
+    try:
+        uuid = get_bus().create_attribute(representation_uuid, attribute_name, public=True)
+        return {'type': 'uuid', 'uuid': uuid}, 200  # OK
     except Exception as exception:
         return handle_exception(exception)

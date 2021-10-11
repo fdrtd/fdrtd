@@ -27,7 +27,5 @@ class Callback(dict):
         if '__' in attr:
             raise AttributeError()
 
-        return lambda **parameters: get_bus().call_microservice(handle=self['handle'],
-                                                                function=attr,
-                                                                parameters=parameters,
-                                                                callback=self['callback'])
+        return {'pointer': get_bus().create_attribute(representation_uuid=self['handle'], attribute_name=attr),
+                'callback': self['callback']}
