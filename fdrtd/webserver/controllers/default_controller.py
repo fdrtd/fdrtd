@@ -10,7 +10,7 @@ def list_representations():
     """list available server-side objects"""
     try:
         response = get_bus().list_representations()
-        return response, 200  # OK
+        return {'type': 'list', 'list': response}, 200  # OK
     except Exception as exception:
         return handle_exception(exception)
 
