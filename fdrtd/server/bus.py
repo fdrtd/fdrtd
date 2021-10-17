@@ -136,7 +136,10 @@ class Bus:
             else:
                 raise fdrtd.server.exceptions.FunctionNotFound(attribute_name)
         else:
-            raise fdrtd.server.exceptions.FunctionNotFound(attribute_name)
+            try:
+                pointer = getattr(instance, attribute_name)
+            except KeyError:
+                raise fdrtd.server.exceptions.FunctionNotFound(attribute_name)
 
         uuid = str(_uuid.uuid4())
         self.lut_uuid_to_repr[uuid] = pointer
