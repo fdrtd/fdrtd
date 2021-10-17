@@ -19,31 +19,11 @@ class Barrier(Microservice):
         uuid = Barrier._create_deterministic_uuid(tokens)
         if uuid not in self.storage:
             self.storage[uuid] = BarrierInstance()
-        return self.callback(uuid)
+        return self.storage[uuid]
 
-    def arrive(self, callback, party):
-        """notifies a barrier that a party has arrived"""
-        return self.storage[callback].arrive(party)
-
-    def arrived(self, callback):
-        """queries a barrier's number of arrived parties'"""
-        return self.storage[callback].arrived()
-
-    def depart(self, callback, party):
-        """notifies a barrier that a party has departed"""
-        return self.storage[callback].depart(party)
-
-    def departed(self, callback):
-        """queries a barrier's number of departed parties'"""
-        return self.storage[callback].departed()
-
-    def reset(self, callback):
-        """resets a barriers state"""
-        self.storage[callback].reset()
-
-    def delete(self, callback):
+    def delete(self, uuid):
         """deletes a barrier"""
-        del self.storage[callback]
+        del self.storage[uuid]
 
     @staticmethod
     def _create_deterministic_uuid(tokens):
