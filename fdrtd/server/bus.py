@@ -117,7 +117,7 @@ class Bus:
                 instance = wrapper
 
         if isinstance(instance, fdrtd.server.callback.Callback):
-            pointer = getattr(instance, attribute_name)
+            pointer = {'pointer': self.create_attribute(representation_uuid=instance['handle'], attribute_name=attribute_name), 'callback': instance['callback']}
         elif isinstance(instance, dict):
             if attribute_name in instance['public']:
                 pointer = instance['public'][attribute_name]
