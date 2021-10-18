@@ -2,15 +2,7 @@
 
 import uuid as _uuid
 
-from flask import current_app
-
 import fdrtd.server.exceptions
-
-
-def get_bus():
-    """get the singleton bus of the server application"""
-    with current_app.app_context():
-        return current_app.bus
 
 
 class MicroserviceWrapper:

@@ -2,8 +2,15 @@
 contains the entry points of the API
 """
 
-from fdrtd.server.bus import get_bus
+from flask import current_app
+
 from fdrtd.server.exceptions import handle_exception
+
+
+def get_bus():
+    """get the singleton bus of the server application"""
+    with current_app.app_context():
+        return current_app.bus
 
 
 def list_representations():
