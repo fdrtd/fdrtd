@@ -44,6 +44,8 @@ def call_representation(representation_uuid, body):
     """call a server-side object"""
     try:
         response = get_bus().call_representation(representation_uuid, body)
+        if response is None:
+            return {'type': 'none'}, 200  # OK
         return {'type': 'uuid', 'uuid': response}, 200  # OK
     except Exception as exception:
         return handle_exception(exception)

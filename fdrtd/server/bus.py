@@ -90,6 +90,8 @@ class Bus:
             result = fn(*args, **kwargs, callback=pointer['callback'])
         else:
             result = pointer(*args, **kwargs)
+        if result is None:
+            return None
         uuid = str(_uuid.uuid4())
         self.lut_uuid_to_repr[uuid] = result
         return uuid
