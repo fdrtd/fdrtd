@@ -260,23 +260,7 @@ components:
       description: Error
   schemas:
     ArgsKwargs:
-      additionalProperties: false
-      example:
-        args:
-        - ""
-        - ""
-        kwargs:
-          key: '{}'
-      properties:
-        args:
-          items: {}
-          type: array
-        kwargs:
-          additionalProperties: true
-          type: object
-      required:
-      - args
-      - kwargs
+      additionalProperties: true
       type: object
     inline_response_default:
       properties:

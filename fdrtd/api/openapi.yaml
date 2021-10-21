@@ -198,14 +198,15 @@ components:
 
     ArgsKwargs:
       type: object
-      required:
-        - args
-        - kwargs
-      properties:
-        args:
-          type: array
-          items: {}
-        kwargs:
-          type: object
-          additionalProperties: true
-      additionalProperties: false
+      additionalProperties: true  # temporary fix, because the following does not work:
+      #required:
+      #  - args
+      #  - kwargs
+      #properties:
+      #  args:
+      #    type: array
+      #    items: {}
+      #  kwargs:
+      #    type: object
+      #    additionalProperties: true
+      #additionalProperties: false
