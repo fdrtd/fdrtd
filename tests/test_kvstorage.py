@@ -13,4 +13,4 @@ class TestThreePartiesServices(TestAssertions):
         microservice = api.create(microservice='KeyValueStorage')
         item = microservice.create(value=42, storage='TestStorage')
         value = api.download(item.retrieve())
-        self.assertEqual(value, 43)
+        self.assertEqual(value, 42)
