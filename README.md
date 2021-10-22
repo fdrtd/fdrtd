@@ -5,6 +5,13 @@
 ![Pylint](https://raw.githubusercontent.com/fdrtd/fdrtd/main/.github/badges/pylint.svg)
 
 
+# acknowledgements
+
+development of `fdrtd` is being financed by a generous grant by [Stifterverband](https://www.stifterverband.org/english).
+
+the team is also thankful for administrative and technical support by [LMU](https://www.lmu.de/en/index.html) and [LRZ](https://www.lrz.de/english/).
+
+
 # description
 
 `fdrtd` is a free and open source implementation of **federated secure computing**,
@@ -33,11 +40,13 @@ on the client, use `representation` to access the API on the server: `pip instal
 
 for example, view the list of available servers:
 
-    import representation
+```python
+import representation
 
-    api = representation.Api("http://localhost:55500")
-    list_of_services = api.list()
-    print(list_of_services)
+api = representation.Api("http://localhost:55500")
+list_of_services = api.list()
+print(list_of_services)
+```
 
 
 # resources
@@ -56,3 +65,5 @@ please [open an issue](https://github.com/fdrtd/fdrtd/issues/new)
 
 `fdrtd` is free and open source software under the MIT license.
 see the [`LICENSE`](https://github.com/fdrtd/fdrtd/tree/main/LICENSE) file for more information.
+
+`fdrtd` is a registered trademark by [bytes for life GmbH](https://www.bytesforlife.com), Munich, Germany.
