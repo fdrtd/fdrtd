@@ -1,2 +1,1 @@
-include fdrtd/api/openapi.yaml
-include fdrtd/webserver/openapi/openapi.yaml
+recursive-include fdrtd/*
