@@ -7,7 +7,7 @@
 
 # description
 
-**fdrtd** is a free and open source implementation of **federated secure computing**,
+`fdrtd` is a free and open source implementation of **federated secure computing**,
 a modern microservice architecture for privacy-preserving computation:
 
 - [x] multi-protocol technology platform (e.g. secure multipary computation)
@@ -18,16 +18,26 @@ a modern microservice architecture for privacy-preserving computation:
 - [x] OpenAPI 3.0 standard for 3rd party developers (plug & play extensions)
 
 
-# getting started
+# installation
 
-to run a **fdrtd** server, clone this repo and start the included webserver:
+to install `fdrtd` on the server, use `pip` or a similar tool: `pip install fdrtd`
 
-    git clone https://github.com/fdrtd/fdrtd
-    python -m fdrtd.webserver --port=55500
+to run the server, execute the module and provide a port: `python -m fdrtd.webserver --port=55500`
 
-you can interact with the server through your browser:
+once the server is up, a list of available services can be found at [localhost:55500/representations](http://localhost:55500/representations)
 
-[localhost:55500/ui](http://localhost:55500/ui)
+
+# usage
+
+on the client, use `representation` to access the API on the server: `pip install representation`
+
+for example, view the list of available servers:
+
+    import representation
+
+    api = representation.Api("http://localhost:55500")
+    list_of_services = api.list()
+    print(list_of_services)
 
 
 # resources
@@ -44,5 +54,5 @@ please [open an issue](https://github.com/fdrtd/fdrtd/issues/new)
 
 # license
 
-**fdrtd** is free and open source software under the MIT license.
+`fdrtd` is free and open source software under the MIT license.
 see the [`LICENSE`](https://github.com/fdrtd/fdrtd/tree/main/LICENSE) file for more information.
