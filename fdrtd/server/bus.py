@@ -27,12 +27,7 @@ class Bus:
             if 'representation_uuid' in arg:
                 if arg['representation_uuid'] in self.lut_uuid_to_repr:
                     return self.get_argument(self.lut_uuid_to_repr[arg['representation_uuid']])
-                else:
-                    return arg
-            else:
-                return arg
-        else:
-            return arg
+        return arg
 
     def get_arguments(self, body):
         args = body['args']
@@ -51,11 +46,7 @@ class Bus:
 
     def create_representation(self, body):
         """create a representation"""
-        args = body['args']
-        kwargs = body['kwargs']
-
-        requirements = kwargs
-        """select a microservice, given a number of key-value pairs"""
+        _, requirements = self.get_arguments(body)
 
         def test(identifiers):
             for requirement in requirements:
@@ -76,7 +67,7 @@ class Bus:
 
     def upload_representation(self, body):
         """upload an object, and return its representation"""
-        args, kwargs = self.get_arguments(body)
+        args, _ = self.get_arguments(body)
         uuid = str(_uuid.uuid4())
         self.lut_uuid_to_repr[uuid] = args[0]
         return uuid
@@ -86,8 +77,8 @@ class Bus:
         args, kwargs = self.get_arguments(body)
         pointer = self.lut_uuid_to_repr[representation_uuid]
         if isinstance(pointer, dict):
-            fn = self.lut_uuid_to_repr[pointer['pointer']]
-            result = fn(*args, **kwargs, callback=pointer['callback'])
+            function = self.lut_uuid_to_repr[pointer['pointer']]
+            result = function(*args, **kwargs, callback=pointer['callback'])
         else:
             result = pointer(*args, **kwargs)
         if result is None:
@@ -119,7 +110,9 @@ class Bus:
                 instance = wrapper
 
         if isinstance(instance, fdrtd.server.callback.Callback):
-            pointer = {'pointer': self.create_attribute(representation_uuid=instance['handle'], attribute_name=attribute_name), 'callback': instance['callback']}
+            pointer = {'pointer': self.create_attribute(representation_uuid=instance['handle'],
+                                                        attribute_name=attribute_name),
+                       'callback': instance['callback']}
         elif isinstance(instance, dict):
             if attribute_name in instance['public']:
                 pointer = instance['public'][attribute_name]
@@ -132,8 +125,8 @@ class Bus:
         else:
             try:
                 pointer = getattr(instance, attribute_name)
-            except KeyError:
-                raise fdrtd.server.exceptions.FunctionNotFound(attribute_name)
+            except KeyError as key_error:
+                raise fdrtd.server.exceptions.FunctionNotFound(attribute_name) from key_error
 
         uuid = str(_uuid.uuid4())
         self.lut_uuid_to_repr[uuid] = pointer
