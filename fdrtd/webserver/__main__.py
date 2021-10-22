@@ -4,6 +4,7 @@
 the main module
 """
 
+import os
 import sys
 import connexion
 import waitress
@@ -22,7 +23,8 @@ def main():
     # logging.basicConfig(level=logging.INFO)
 
     port = 8080
-    plugin_directory = "fdrtd"
+    real_path = os.path.realpath(__file__)
+    plugin_directory = os.path.join(os.path.dirname(real_path), os.path.pardir)
     for arg in sys.argv:
         if arg[:7] == "--port=":
             port = int(arg[7:])
