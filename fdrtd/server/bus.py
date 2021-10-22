@@ -5,11 +5,6 @@ import uuid as _uuid
 import fdrtd.server.exceptions
 
 
-class MicroserviceWrapper:
-    def __init__(self, microservice):
-        self.microservice = microservice
-
-
 class Bus:
     """the bus stores representations of microservices and other server-side objects"""
 
@@ -59,8 +54,7 @@ class Bus:
         for uuid, microservice in self.microservices.items():
             if test(microservice['identifiers']):
                 if uuid not in self.lut_uuid_to_repr:
-                    wrapper = MicroserviceWrapper(microservice)
-                    self.lut_uuid_to_repr[uuid] = wrapper
+                    self.lut_uuid_to_repr[uuid] = microservice
                 return uuid
 
         raise fdrtd.server.exceptions.MicroserviceNotFound(requirements)
@@ -103,11 +97,7 @@ class Bus:
         if representation_uuid in self.microservices:
             instance = self.microservices[representation_uuid]
         else:
-            wrapper = self.lut_uuid_to_repr[representation_uuid]
-            if isinstance(wrapper, MicroserviceWrapper):
-                instance = wrapper.microservice
-            else:
-                instance = wrapper
+            instance = self.lut_uuid_to_repr[representation_uuid]
 
         if isinstance(instance, fdrtd.server.callback.Callback):
             pointer = {'pointer': self.create_attribute(representation_uuid=instance['handle'],
