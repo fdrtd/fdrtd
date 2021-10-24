@@ -6,8 +6,9 @@ class TestInterface:
 
     def __init__(self):
         self.bus = Bus()
-        microservices = discover_microservices("../fdrtd", self.bus)
+        microservices, classes = discover_microservices("../fdrtd", self.bus)
         self.bus.set_microservices(microservices)
+        self.bus.set_classes(classes)
 
     def post(self, *path, body=None):
         if len(path) == 1:

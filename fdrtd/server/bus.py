@@ -11,11 +11,16 @@ class Bus:
     def __init__(self):
         """initialize the bus"""
         self.microservices = {}
+        self.classes = {}
         self.lut_uuid_to_repr = {}
 
     def set_microservices(self, microservices):
         """set microservices discovered on server startup (internal use only)"""
         self.microservices = microservices
+
+    def set_classes(self, classes):
+        """set representations discovered on server startup (internal use only)"""
+        self.classes = classes
 
     def get_argument(self, arg):
         if isinstance(arg, dict):
@@ -57,6 +62,12 @@ class Bus:
                     self.lut_uuid_to_repr[uuid] = microservice
                 return uuid
 
+        for uuid, class_descriptor in self.classes.items():
+            if test(class_descriptor['identifiers']):
+                if uuid not in self.lut_uuid_to_repr:
+                    self.lut_uuid_to_repr[uuid] = class_descriptor['class']
+                return uuid
+
         raise fdrtd.server.exceptions.MicroserviceNotFound(requirements)
 
     def upload_representation(self, body):
@@ -70,6 +81,7 @@ class Bus:
         """call a server-side object"""
         args, kwargs = self.get_arguments(body)
         pointer = self.lut_uuid_to_repr[representation_uuid]
+        print(pointer)
         if isinstance(pointer, dict):
             function = self.lut_uuid_to_repr[pointer['pointer']]
             result = function(*args, **kwargs, callback=pointer['callback'])

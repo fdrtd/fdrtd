@@ -32,8 +32,9 @@ def main():
             plugin_directory = arg[19:]
 
     bus = Bus()
-    microservices = discover_microservices(plugin_directory, bus)
+    microservices, classes = discover_microservices(plugin_directory, bus)
     bus.set_microservices(microservices)
+    bus.set_classes(classes)
 
     app = connexion.App(__name__, specification_dir='openapi/')
     app.app.json_encoder = JSONEncoder
