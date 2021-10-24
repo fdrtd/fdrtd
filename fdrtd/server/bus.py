@@ -81,7 +81,6 @@ class Bus:
         """call a server-side object"""
         args, kwargs = self.get_arguments(body)
         pointer = self.lut_uuid_to_repr[representation_uuid]
-        print(pointer)
         if isinstance(pointer, dict):
             function = self.lut_uuid_to_repr[pointer['pointer']]
             result = function(*args, **kwargs, callback=pointer['callback'])
