@@ -3,9 +3,9 @@ from tests.assertions import TestAssertions
 from tests.interface import TestInterface
 
 
-class TestThreePartiesServices(TestAssertions):
+class TestKeyValueStorage(TestAssertions):
 
-    def test_kvstorage(self):
+    def test_key_value_storage(self):
 
         interface = TestInterface()
         api = TestApi(interface=interface)
