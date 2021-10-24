@@ -1,0 +1,17 @@
+{
+  "classes":
+  [
+    {
+      "identifiers": {
+        "namespace": "fdrtd",
+        "builtin": "Examples",
+        "plugin": "Examples",
+        "version": "0.3.6",
+        "class_name": "Rectangle"
+      },
+      "classfile": "rectangle.py",
+      "classname": "Rectangle",
+      "language": "Python"
+    }
+  ]
+}
