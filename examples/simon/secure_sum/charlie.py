@@ -27,6 +27,7 @@ URL_CHARLIE = "http://localhost:55503"
 
 SECRET_CHARLIE = 99.0
 NETWORK_CHARLIE = {'nodes': [URL_ALICE, URL_BOB, URL_CHARLIE], 'myself': 2}  # Charlie is no. 2 out of 0, 1, 2.
+SHARED_TOKENS = ["Some", "Shared", "Tokens"]  # Shared by Alice, Bob, and Charlie; for synchronization
 
 
 if __name__ == "__main__":
@@ -35,7 +36,7 @@ if __name__ == "__main__":
     api_sync = SyncApi(URL_SYNC)
 
     microservice = api.create(protocol="Simon")
-    invitation = api_sync.wait_for_broadcast(["Some", "Shared", "Tokens"])
+    invitation = api_sync.wait_for_broadcast(tokens=SHARED_TOKENS)
     task = microservice.join_task(invitation=invitation, network=NETWORK_CHARLIE)
     task.input(data=SECRET_CHARLIE)
     task.start()
