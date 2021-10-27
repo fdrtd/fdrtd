@@ -20,10 +20,10 @@ import representation
 from tools.sync import SyncApi
 
 
-URL_SYNC = "http://localhost:55500"
-URL_ALICE = "http://localhost:55501"
-URL_BOB = "http://localhost:55502"
-URL_CHARLIE = "http://localhost:55503"
+URL_SYNC = "http://127.0.0.1:55500"
+URL_ALICE = "http://127.0.0.1:55501"
+URL_BOB = "http://127.0.0.1:55502"
+URL_CHARLIE = "http://127.0.0.1:55503"
 
 SECRET_BOB = 16.0
 NETWORK_BOB = {'nodes': [URL_ALICE, URL_BOB, URL_CHARLIE], 'myself': 1}  # Bob is no. 1 out of 0, 1, 2.
