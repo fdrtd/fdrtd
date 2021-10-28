@@ -4,7 +4,7 @@ from fdrtd.builtins.simon.caches.cache import Cache
 from fdrtd.builtins.simon.caches.additive import CacheAdditive
 from fdrtd.builtins.simon.caches.functional import CacheFunctional
 from fdrtd.builtins.simon.microprotocols.microprotocol import Microprotocol
-from fdrtd.builtins.common.accumulators.accumulator_statistics_frequency import AccumulatorStatisticsFrequency
+from fdrtd.builtins.simon.accumulators.accumulator_statistics_frequency import AccumulatorStatisticsFrequency
 
 
 class MicroprotocolStatisticsFrequency(Microprotocol):

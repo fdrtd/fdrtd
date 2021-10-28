@@ -1,6 +1,6 @@
 from fdrtd.builtins.simon.caches.cache import Cache
 from fdrtd.builtins.simon.microprotocols.microprotocol import Microprotocol
-from fdrtd.builtins.common.accumulators.accumulator_statistics_univariate import AccumulatorStatisticsUnivariate
+from fdrtd.builtins.simon.accumulators.accumulator_statistics_univariate import AccumulatorStatisticsUnivariate
 
 
 class MicroprotocolStatisticsUnivariate(Microprotocol):

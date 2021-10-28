@@ -1,4 +1,4 @@
-from fdrtd.builtins.common.accumulators.accumulator import Accumulator
+from fdrtd.builtins.simon.accumulators.accumulator import Accumulator
 
 
 class AccumulatorStatisticsFrequency(Accumulator):

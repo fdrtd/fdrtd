@@ -1,7 +1,7 @@
 import math as _math
 
-from fdrtd.builtins.common.accumulators.accumulator import Accumulator
-from fdrtd.builtins.common.accumulators.accumulator_statistics_univariate import AccumulatorStatisticsUnivariate
+from fdrtd.builtins.simon.accumulators.accumulator import Accumulator
+from fdrtd.builtins.simon.accumulators.accumulator_statistics_univariate import AccumulatorStatisticsUnivariate
 
 
 class AccumulatorStatisticsBivariate(Accumulator):

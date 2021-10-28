@@ -1,8 +1,8 @@
 import math as _math
 import sys as _sys
 
-from fdrtd.builtins.common.accumulators.accumulator import Accumulator
-from fdrtd.builtins.common.accumulators.accumulator_statistics_moments import AccumulatorStatisticsMoments
+from fdrtd.builtins.simon.accumulators.accumulator import Accumulator
+from fdrtd.builtins.simon.accumulators.accumulator_statistics_moments import AccumulatorStatisticsMoments
 
 
 class AccumulatorStatisticsUnivariate(Accumulator):

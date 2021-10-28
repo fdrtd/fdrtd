@@ -1,4 +1,4 @@
-from fdrtd.builtins.common.accumulators.accumulator_basic_function import AccumulatorBasicFunction
+from fdrtd.builtins.simon.accumulators.accumulator_basic_function import AccumulatorBasicFunction
 
 
 class AccumulatorBasicSum(AccumulatorBasicFunction):

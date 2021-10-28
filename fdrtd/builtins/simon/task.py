@@ -1,5 +1,5 @@
 from fdrtd.builtins.simon.microprotocols.create import create as create_microprotocol
-from fdrtd.builtins.common.accumulators.create import create as create_accumulator
+from fdrtd.builtins.simon.accumulators.create import create as create_accumulator
 
 
 class TaskSimon:
