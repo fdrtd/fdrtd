@@ -23,16 +23,12 @@ def main():
     # logging.basicConfig(level=logging.INFO)
 
     port = 8080
-    real_path = os.path.realpath(__file__)
-    plugin_directory = os.path.join(os.path.dirname(real_path), os.path.pardir)
     for arg in sys.argv:
         if arg[:7] == "--port=":
             port = int(arg[7:])
-        if arg[:19] == "--plugin_directory=":
-            plugin_directory = arg[19:]
 
     bus = Bus()
-    microservices, classes = discover_microservices(plugin_directory, bus)
+    microservices, classes = discover_microservices(bus)
     bus.set_microservices(microservices)
     bus.set_classes(classes)
 
