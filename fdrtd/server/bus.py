@@ -2,6 +2,7 @@
 
 import uuid as _uuid
 
+import fdrtd.server.callback
 import fdrtd.server.exceptions
 
 
@@ -102,8 +103,6 @@ class Bus:
 
     def create_attribute(self, representation_uuid, attribute_name, public=False):
         """create a representation of an attribute of a representation"""
-
-        import fdrtd.server.callback
 
         if representation_uuid in self.microservices:
             instance = self.microservices[representation_uuid]
