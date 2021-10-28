@@ -1,13 +1,12 @@
 """
 secure sum example with Simon
 
-four fdrtd servers are needed for this example.
+three fdrtd servers are needed for this example.
 one for each of Alice, Bob, and Charlie.
 and an additional one for invitations and synchronizing.
 the easiest way is to run them all on localhost:
 
     pip install fdrtd
-    python -m fdrtd.webserver --port=55500 &
     python -m fdrtd.webserver --port=55501 &
     python -m fdrtd.webserver --port=55502 &
     python -m fdrtd.webserver --port=55503 &
@@ -17,32 +16,19 @@ then, the three scripts of Alice, Bob, and Charlie may be executed simultaneousl
 
 
 import representation
-from tools.sync import SyncApi
+import shared
 
-
-URL_SYNC = "http://127.0.0.1:55500"
-URL_ALICE = "http://127.0.0.1:55501"
-URL_BOB = "http://127.0.0.1:55502"
-URL_CHARLIE = "http://127.0.0.1:55503"
 
 SECRET_ALICE = 42.0
-NETWORK_ALICE = {'nodes': [URL_ALICE, URL_BOB, URL_CHARLIE], 'myself': 0}  # Alice is no. 0 out of 0, 1, 2.
-SHARED_TOKENS = ["Some", "Shared", "Tokens"]  # Shared by Alice, Bob, and Charlie; for synchronization
+NETWORK_ALICE = {**shared.NETWORK, 'myself': 0}    # Alice is no. 0 out of 0, 1, 2.
 
 
 if __name__ == "__main__":
 
-    api = representation.Api(URL_ALICE)
-    api_sync = SyncApi(URL_SYNC)
-
+    api = representation.Api(shared.URL_ALICE)
     microservice = api.create(protocol="Simon")
-    task = microservice.create_task(microprotocol="BasicSum", network=NETWORK_ALICE)
-    invitation = api.download(task.invite())
-    api_sync.send_broadcast(message=invitation, tokens=SHARED_TOKENS)
-    task.input(data=SECRET_ALICE)
-    task.start()
-
-    result = None
-    while result is None:
-        result = task.result()
+    result = microservice.compute(microprotocol="BasicSum",
+                                  data=SECRET_ALICE,
+                                  network=NETWORK_ALICE,
+                                  tokens=shared.TOKENS)
     print(api.download(result))
