@@ -10,7 +10,7 @@
       "classfile": "microservice.py",
       "classname": "MicroserviceSimon",
       "language": "Python",
-      "public": ["get_task", "create_task", "join_task", "peer_to_peer"]
+      "public": ["compute", "get_task", "create_task", "join_task", "peer_to_peer"]
     }
   ]
 }

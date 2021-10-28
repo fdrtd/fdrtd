@@ -1,8 +1,10 @@
 import uuid as _uuid
+import time as _time
 
 from fdrtd.server.microservice import Microservice
 
 from fdrtd.builtins.simon.task import TaskSimon
+from fdrtd.builtins.simon.sync_api import SyncApi
 
 
 class MicroserviceSimon(Microservice):
@@ -54,3 +56,20 @@ class MicroserviceSimon(Microservice):
         else:
             self._the_cache.append({'task_id': callback, 'body': body})
         return None
+
+    def compute(self, microprotocol, data, network, tokens):
+        sync_api = SyncApi(network['nodes'][0])
+        if network['myself'] == 0:
+            task = self.create_task(microprotocol, network)
+            invitation = task.invite()
+            sync_api.send_broadcast(invitation, tokens)
+        else:
+            invitation = sync_api.wait_for_broadcast(tokens)
+            task = self.join_task(invitation, network)
+        task.input(data)
+        task.start()
+        result = task.result()
+        while result is None:
+            _time.sleep(0.02)
+            result = task.result()
+        return result
