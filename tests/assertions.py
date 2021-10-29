@@ -5,19 +5,19 @@ class TestAssertions(_unittest.TestCase):
 
     def outer_assertion(self, res1, res2, msg):
         if isinstance(res1, tuple):
-            for x, y in zip(res1, res2):
-                self.outer_assertion(x, y, msg)
+            for first, second in zip(res1, res2):
+                self.outer_assertion(first, second, msg)
         elif isinstance(res1, list):
-            for x, y in zip(sorted(res1), sorted(res2)):
-                self.outer_assertion(x, y, msg)
+            for first, second in zip(sorted(res1), sorted(res2)):
+                self.outer_assertion(first, second, msg)
         elif isinstance(res1, dict):
-            for key in res1:
-                self.outer_assertion(res1[key], res2[key], msg)
+            for kesecond in res1:
+                self.outer_assertion(res1[kesecond], res2[kesecond], msg)
         else:
             self.inner_assertion(res1, res2, msg)
 
-    def inner_assertion(self, x, y, msg):
-        if isinstance(x, float):
-            self.assertAlmostEqual(first=x, second=y, places=4, msg=msg)
+    def inner_assertion(self, first, second, msg):
+        if isinstance(first, float):
+            self.assertAlmostEqual(first=first, second=second, places=4, msg=msg)
         else:
-            self.assertEqual(first=x, second=y, msg=msg)
+            self.assertEqual(first=first, second=second, msg=msg)

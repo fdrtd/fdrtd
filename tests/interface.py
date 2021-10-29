@@ -14,13 +14,15 @@ class TestInterface:
         if len(path) == 1:
             if path[0] == 'representations':
                 response = self.bus.create_representation(body)
-                return {'type': 'uuid', 'uuid': response}, 200 
+                return {'type': 'uuid', 'uuid': response}, 200
+        raise RuntimeError()
 
     def put(self, *path, body=None):
         if len(path) == 1:
             if path[0] == 'representations':
                 response = self.bus.upload_representation(body)
                 return {'type': 'uuid', 'uuid': response}, 200
+        raise RuntimeError()
 
     def patch(self, *path, body=None):
         if len(path) == 2:
@@ -29,6 +31,7 @@ class TestInterface:
                 if response is None:
                     return {'type': 'none'}, 200
                 return {'type': 'uuid', 'uuid': response}, 200
+        raise RuntimeError()
 
     def get(self, *path):
         if len(path) == 1:
@@ -43,10 +46,11 @@ class TestInterface:
             if path[0] == 'representation':
                 uuid = self.bus.create_attribute(path[1], path[2], public=True)
                 return {'type': 'uuid', 'uuid': uuid}, 200
+        raise RuntimeError()
 
     def delete(self, *path):
         if len(path) == 2:
             if path[0] == 'representation':
                 self.bus.release_representation(path[1])
                 return {'type': 'none'}, 200
-
+        raise RuntimeError()
