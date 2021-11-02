@@ -4,7 +4,6 @@
 the main module
 """
 
-import os
 import sys
 import connexion
 import waitress
@@ -40,6 +39,13 @@ def main():
 
     with app.app.app_context():
         current_app.bus = bus
+
+    @app.app.after_request
+    def after_request(response):
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+        response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,PATCH,DELETE')
+        return response
 
     waitress.serve(app, host="0.0.0.0", port=port)
 
