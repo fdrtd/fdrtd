@@ -11,13 +11,13 @@ then, the following script may be executed.
 """
 
 
-import representation
+import fdrtd.clients.python
 
 
 URL = "http://localhost:55500"
 
 
 if __name__ == "__main__":
-    api = representation.Api(URL)
+    api = fdrtd.clients.python.Api(URL)
     list_of_services = api.list()
     print(list_of_services)

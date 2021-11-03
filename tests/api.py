@@ -1,4 +1,4 @@
-from representation import Api
+from fdrtd.clients.python import Api
 
 
 class TestApi(Api):

@@ -87,8 +87,8 @@ using its microservices. to do so, we use the `representation` API.
 
 * run your Python interpreter, e.g. `python`
 * the following commands are entered in the Python console:
-* import the fdrtd client library: `import representation`
-* create an API object using the HTTP interface: `api = representation.Api("http://localhost:55500")`
+* import the fdrtd client library: `import fdrtd.clients.python`
+* create an API object using the HTTP interface: `api = fdrtd.clients.python.Api("http://localhost:55500")`
 * check if the connection is working: `print(api.list())`
 * are you seeing a similar output as in the web browser before?
 

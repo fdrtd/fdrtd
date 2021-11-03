@@ -36,14 +36,14 @@ once the server is up, a list of available services can be found at [localhost:5
 
 # usage
 
-on the client, use `representation` to access the API on the server: `pip install representation`
+to install `fdrtd` on the client, use `pip` or a similar tool: `pip install fdrtd`
 
 for example, view the list of available servers:
 
 ```python
-import representation
+import fdrtd.clients.python
 
-api = representation.Api("http://localhost:55500")
+api = fdrtd.clients.python.Api("http://localhost:55500")
 list_of_services = api.list()
 print(list_of_services)
 ```
