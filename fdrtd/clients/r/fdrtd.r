@@ -108,30 +108,31 @@ Api = setRefClass("Api",
     },
     create = function(args=NULL, kwargs=NULL) {
         response <- .self$http_interface$post(c('representations'), list(args=args, kwargs=kwargs))
-    	return(Representation$new(.self, response['uuid']))
+        print(response)
+    	return(Representation$new(.self, response$uuid))
     },
     upload = function(args=NULL, kwargs=NULL) {
         response <- .self$http_interface$put(c('representations'), list(args=args, kwargs=kwargs))
-    	return(Representation$new(.self, response['uuid']))
+    	return(Representation$new(.self, response$uuid))
     },
     call = function(representation_uuid, args=NULL, kwargs=NULL) {
-        response <- .self$http_interface$patch(c('representations', representation_uuid), list(args=args, kwargs=kwargs))
+        response <- .self$http_interface$patch(c('representation', representation_uuid), list(args=args, kwargs=kwargs))
     	if(response['type'] == 'uuid') {
-        	return(Representation$new(.self, response['uuid']))
+        	return(Representation$new(.self, response$uuid))
     	}
     	return(NULL)
     },
     download = function(representation) {
-        response <- .self$http_interface$get(c('representations', representation['representation_uuid']))
-     	return(response['object'])
+        response <- .self$http_interface$get(c('representation', representation$representation_uuid))
+     	return(response$object)
     },
     release = function(representation_uuid) {
-        response <- .self$http_interface$delete(c('representations', representation_uuid))
+        response <- .self$http_interface$delete(c('representation', representation_uuid))
     	return(NULL)
     },
     attribute = function(representation_uuid, member_name) {
-        response <- .self$http_interface$get(c('representations', representation_uuid, member_name))
-      	return(Representation$new(.self, response['uuid']))
+        response <- .self$http_interface$get(c('representation', representation_uuid, member_name))
+      	return(Representation$new(.self, response$uuid))
     }
   )
 )
