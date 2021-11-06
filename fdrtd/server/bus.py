@@ -31,9 +31,9 @@ class Bus:
         return arg
 
     def get_arguments(self, body):
-        args = body['args']
+        args = body.get('args', [])
         kwargs = {}
-        for k in body['kwargs']:
+        for k in body.get('kwargs', {}):
             kwargs[k] = self.get_argument(body['kwargs'][k])
         return args, kwargs
 
