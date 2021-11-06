@@ -1,0 +1,3 @@
+importFrom("methods", "new")
+import("httr")
+import("logging")
