@@ -108,7 +108,6 @@ Api = setRefClass("Api",
     },
     create = function(args=NULL, kwargs=NULL) {
         response <- .self$http_interface$post(c('representations'), list(args=args, kwargs=kwargs))
-        print(response)
     	return(Representation$new(.self, response$uuid))
     },
     upload = function(args=NULL, kwargs=NULL) {
