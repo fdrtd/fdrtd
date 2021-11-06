@@ -103,7 +103,7 @@ Api = setRefClass("Api",
     initialize = function(root="") {
       .self$http_interface = HttpInterface$new(root)
     },
-    list = function() {
+    report = function() {
     	return(.self$http_interface$get(c('representations')))
     },
     create = function(args=NULL, kwargs=NULL) {
