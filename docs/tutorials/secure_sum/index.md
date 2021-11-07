@@ -98,7 +98,7 @@ a propaedeutic version of a secure multiparty computation protocol:
 
 Alice is going ahead and is creating a task:
 
-* `task_A = protocol_A.create(microprotocol="BasicSum", network=network_A)`
+* `task_A = protocol_A.create(microprotocol="SecureSum", network=network_A)`
 
 ## 4. invite others to join your task
 

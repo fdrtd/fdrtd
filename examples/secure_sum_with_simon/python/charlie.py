@@ -27,7 +27,7 @@ if __name__ == "__main__":
 
     api = fdrtd.clients.python.Api(shared.URL_CHARLIE)
     microservice = api.create(protocol="Simon")
-    result = microservice.compute(microprotocol="BasicSum",
+    result = microservice.compute(microprotocol="SecureSum",
                                   data=SECRET_CHARLIE,
                                   network=NETWORK_CHARLIE,
                                   tokens=shared.TOKENS)
