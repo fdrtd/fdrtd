@@ -47,7 +47,7 @@ paths:
                 $ref: '#/components/schemas/inline_response_default'
           description: Error
       summary: release a representation
-      x-openapi-router-controller: fdrtd.webserver.controllers.default_controller
+      x-openapi-router-controller: fdrtd.webserver.connexion.controllers.default_controller
     get:
       description: download a serialized version of a server-side object itself (instead
         of its representation). think of this as a de-referencing operation, downloading
@@ -80,7 +80,7 @@ paths:
                 $ref: '#/components/schemas/inline_response_default'
           description: Error
       summary: download a serialized version of a server-side object
-      x-openapi-router-controller: fdrtd.webserver.controllers.default_controller
+      x-openapi-router-controller: fdrtd.webserver.connexion.controllers.default_controller
     patch:
       description: call a server-side object such as a static function, a member function,
         or in case of a class, its constructor
@@ -114,7 +114,7 @@ paths:
                 $ref: '#/components/schemas/inline_response_default'
           description: Error
       summary: call a server-side object
-      x-openapi-router-controller: fdrtd.webserver.controllers.default_controller
+      x-openapi-router-controller: fdrtd.webserver.connexion.controllers.default_controller
   /representation/{representation_uuid}/{attribute_name}:
     get:
       description: create a representation of an attribute of a representation
@@ -153,7 +153,7 @@ paths:
                 $ref: '#/components/schemas/inline_response_default'
           description: Error
       summary: create a representation of an attribute of a representation
-      x-openapi-router-controller: fdrtd.webserver.controllers.default_controller
+      x-openapi-router-controller: fdrtd.webserver.connexion.controllers.default_controller
   /representations:
     get:
       description: returns a list of server-side objects that are available to be
@@ -179,7 +179,7 @@ paths:
                 $ref: '#/components/schemas/inline_response_default'
           description: Error
       summary: list available server-side objects
-      x-openapi-router-controller: fdrtd.webserver.controllers.default_controller
+      x-openapi-router-controller: fdrtd.webserver.connexion.controllers.default_controller
     post:
       description: create a representation, a client-side reference to a server-side
         object. the representation will be wrapped client-side, so that it may be
@@ -205,7 +205,7 @@ paths:
                 $ref: '#/components/schemas/inline_response_default'
           description: Error
       summary: create a representation
-      x-openapi-router-controller: fdrtd.webserver.controllers.default_controller
+      x-openapi-router-controller: fdrtd.webserver.connexion.controllers.default_controller
     put:
       description: upload an object to the server, and return a reference for future
         interaction.
@@ -230,7 +230,7 @@ paths:
                 $ref: '#/components/schemas/inline_response_default'
           description: Error
       summary: upload an object, and return its representation
-      x-openapi-router-controller: fdrtd.webserver.controllers.default_controller
+      x-openapi-router-controller: fdrtd.webserver.connexion.controllers.default_controller
 components:
   requestBodies:
     ArgsKwargs:

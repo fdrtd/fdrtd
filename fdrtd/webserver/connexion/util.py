@@ -1,8 +1,7 @@
 import datetime
 
 import six
-import typing
-from fdrtd.webserver import typing_utils
+from fdrtd.webserver.connexion import typing_utils
 
 
 def _deserialize(data, klass):

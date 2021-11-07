@@ -3,7 +3,7 @@ import pprint
 import six
 import typing
 
-from fdrtd.webserver import util
+from fdrtd.webserver.connexion import util
 
 T = typing.TypeVar('T')
 
