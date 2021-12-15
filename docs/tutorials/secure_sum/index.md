@@ -114,7 +114,7 @@ a propaedeutic version of a secure multiparty computation protocol:
 
 Alice is going ahead and is creating a task:
 
-    task_A = protocol_A.create(microprotocol="SecureSum", network=network_A)
+    task_A = protocol_A.create_task(microprotocol="SecureSum", network=network_A)
 
 ## 5. invite others to join your task
 
@@ -124,24 +124,16 @@ so that Alice, Bob, and Charlie work on the same task, Alice needs to invite Bob
 
 Bob and Charlie can use this handle to create matching tasks on their servers:
 
-    task_B = protocol_B.join(invitation=invitation, network=network_B)
-    task_C = protocol_C.join(invitation=invitation, network=network_C)
+    task_B = protocol_B.join_task(invitation=invitation, network=network_B)
+    task_C = protocol_C.join_task(invitation=invitation, network=network_C)
 
 ## 6. provide private input to a tast
 
 Alice, Bob, and Charlie send data to their respective servers and input it into the joint calculation:
 
-    kvstorage_A = api_A.select_microservice(microservice="KeyValueStorage")
-    kvstorage_B = api_B.select_microservice(microservice="KeyValueStorage")
-    kvstorage_C = api_C.select_microservice(microservice="KeyValueStorage")
-
-    data_A = kvstorage_A.create(value=10)
-    data_B = kvstorage_B.create(value=7)
-    data_C = kvstorage_C.create(value=14)
-
-    task_A.input(source=data_A)
-    task_B.input(source=data_B)
-    task_C.input(source=data_C)
+    task_A.input(data=10)
+    task_B.input(data=7)
+    task_C.input(data=14)
 
 ## 7. query the result of a task
 
