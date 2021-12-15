@@ -83,7 +83,7 @@ on Windows, you can start the servers in three separate consoles.
 * run your Python interpreter, e.g. `python`
 * the following commands are entered in the Python console:
 
-    nodes = ["http://127.0.0.1:55501", "http://127.0.0.1:55502", "http://127.0.0.1:55503"]
+    `nodes = ["http://127.0.0.1:55501", "http://127.0.0.1:55502", "http://127.0.0.1:55503"]`
 
 each of them considers one of the nodes their own:
 
@@ -108,48 +108,48 @@ now, Alice, Bob, and Charlie each acquire the API of their respective servers:
 we will be using the 'Simon' microservice for this exercise. Simon stands for (SI)mple (M)ultiparty computati(ON),
 a propaedeutic version of a secure multiparty computation protocol:
 
-* `protocol_A = api_A.select_microservice(protocol="Simon")`
-* `protocol_B = api_B.select_microservice(protocol="Simon")`
-* `protocol_C = api_C.select_microservice(protocol="Simon")`
+    protocol_A = api_A.select_microservice(protocol="Simon")
+    protocol_B = api_B.select_microservice(protocol="Simon")
+    protocol_C = api_C.select_microservice(protocol="Simon")
 
 Alice is going ahead and is creating a task:
 
-* `task_A = protocol_A.create(microprotocol="SecureSum", network=network_A)`
+    `task_A = protocol_A.create(microprotocol="SecureSum", network=network_A)`
 
 ## 5. invite others to join your task
 
 so that Alice, Bob, and Charlie work on the same task, Alice needs to invite Bob and Charlie to join hers:
 
-* `invitation = task_A.invite()`
+    `invitation = task_A.invite()`
 
 Bob and Charlie can use this handle to create matching tasks on their servers:
 
-* `task_B = protocol_B.join(invitation=invitation, network=network_B)`
-* `task_C = protocol_C.join(invitation=invitation, network=network_C)`
+    task_B = protocol_B.join(invitation=invitation, network=network_B)
+    task_C = protocol_C.join(invitation=invitation, network=network_C)
 
 ## 6. provide private input to a tast
 
 Alice, Bob, and Charlie send data to their respective servers and input it into the joint calculation:
 
-* `kvstorage_A = api_A.select_microservice(microservice="KeyValueStorage")`
-* `kvstorage_B = api_B.select_microservice(microservice="KeyValueStorage")`
-* `kvstorage_C = api_C.select_microservice(microservice="KeyValueStorage")`
+    kvstorage_A = api_A.select_microservice(microservice="KeyValueStorage")
+    kvstorage_B = api_B.select_microservice(microservice="KeyValueStorage")
+    kvstorage_C = api_C.select_microservice(microservice="KeyValueStorage")
 
-* `data_A = kvstorage_A.create(value=10)`
-* `data_B = kvstorage_B.create(value=7)`
-* `data_C = kvstorage_C.create(value=14)`
+    data_A = kvstorage_A.create(value=10)
+    data_B = kvstorage_B.create(value=7)
+    data_C = kvstorage_C.create(value=14)
 
-* `task_A.input(source=data_A)`
-* `task_B.input(source=data_B)`
-* `task_C.input(source=data_C)`
+    task_A.input(source=data_A)
+    task_B.input(source=data_B)
+    task_C.input(source=data_C)
 
 ## 7. query the result of a task
 
 now, Alice, Bob, and Charlie can each query their own server for the result of the joint calculation:
 
-* `task_A.result()`
-* `task_B.result()`
-* `task_C.result()`
+    task_A.result()
+    task_B.result()
+    task_C.result()
 
 there should be a total of 3 parties ('inputs') providing 3 samples (1 each) and the sum would be 31.
 
@@ -157,13 +157,13 @@ there should be a total of 3 parties ('inputs') providing 3 samples (1 each) and
 
 always clean up your sensitive data:
 
-* `data_A.delete()`
-* `data_B.delete()`
-* `data_C.delete()`
+    data_A.delete()
+    data_B.delete()
+    data_C.delete()
 
 you can exit the Python console
 
-* `exit()`
+    exit()
 
 ## conclusion
 
