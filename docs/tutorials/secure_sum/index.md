@@ -99,9 +99,9 @@ to connect to the test servers, we need the fdrtd client:
 
 now, Alice, Bob, and Charlie each acquire the API of their respective servers:
 
-    api_A = fdrtd.Api(nodes[0])
-    api_B = fdrtd.Api(nodes[1])
-    api_C = fdrtd.Api(nodes[2])
+    api_A = fdrtd.clients.python.Api(nodes[0])
+    api_B = fdrtd.clients.python.Api(nodes[1])
+    api_C = fdrtd.clients.python.Api(nodes[2])
 
 ## 4. start a secure computation task
 
