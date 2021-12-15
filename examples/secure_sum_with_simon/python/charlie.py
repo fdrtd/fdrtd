@@ -7,6 +7,7 @@ and an additional one for invitations and synchronizing.
 the easiest way is to run them all on localhost:
 
     pip install fdrtd
+    pip install fdrtd-simon
     python -m fdrtd.webserver --port=55501 &
     python -m fdrtd.webserver --port=55502 &
     python -m fdrtd.webserver --port=55503 &
