@@ -134,28 +134,20 @@ Alice, Bob, and Charlie send data to their respective servers and input it into 
     task_A.input(data=10)
     task_B.input(data=7)
     task_C.input(data=14)
+    
+    task_A.start()
+    task_B.start()
+    task_C.start()
 
 ## 7. query the result of a task
 
 now, Alice, Bob, and Charlie can each query their own server for the result of the joint calculation:
 
-    task_A.result()
-    task_B.result()
-    task_C.result()
+    print(api_A.download(task_A.result()))
+    print(api_B.download(task_B.result()))
+    print(api_C.download(task_C.result()))
 
 there should be a total of 3 parties ('inputs') providing 3 samples (1 each) and the sum would be 31.
-
-## 8. cleanup
-
-always clean up your sensitive data:
-
-    data_A.delete()
-    data_B.delete()
-    data_C.delete()
-
-you can exit the Python console
-
-    exit()
 
 ## conclusion
 
