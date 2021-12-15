@@ -59,35 +59,51 @@ to execute the steps on your system, it needs
 
 ---
 
-## 1. describe a peer-to-peer network
+Alice (A), Bob (B), and Charlie (C) want to do secure multiparty computation in a peer-to-peer network.
+for this exercise, they are going to set up a server each. then, they will connect to their servers
+through the fdrtd API and perform a secure sum computation.
+
+## 1. set up servers
+
+first, install the fdrtd base server and the Simon protocol (Simon = SImple Multiparty computatiON):
+
+    pip install fdrtd
+    pip install fdrtd-simon
+  
+now, we are going to run three servers on localhost, one each for Alice, Bob, and Charlie.
+on Linux, you can run the servers in the background by adding an ampersand to the command line.
+on Windows, you can start the servers in three separate consoles.
+
+    python -m fdrtd.webserver --port=55501 &
+    python -m fdrtd.webserver --port=55502 &
+    python -m fdrtd.webserver --port=55503 &
+
+## 2. describe a peer-to-peer network
 
 * run your Python interpreter, e.g. `python`
 * the following commands are entered in the Python console:
 
-Alice (A), Bob (B), and Charlie (C) want to do secure multiparty computation in a peer-to-peer network.
-for this exercise, they are going to use three public test servers:
-
-* `nodes = ["https://lrz.fdrtd.com/public1", "https://lrz.fdrtd.com/public2", "https://lrz.fdrtd.com/public3"]`
+    nodes = ["http://127.0.0.1:55501", "http://127.0.0.1:55502", "http://127.0.0.1:55503"]
 
 each of them considers one of the nodes their own:
 
-* `network_A = {'nodes': nodes, 'myself': 0}`
-* `network_B = {'nodes': nodes, 'myself': 1}`
-* `network_C = {'nodes': nodes, 'myself': 2}`
+    network_A = {'nodes': nodes, 'myself': 0}
+    network_B = {'nodes': nodes, 'myself': 1}
+    network_C = {'nodes': nodes, 'myself': 2}
 
-## 2. connect to public test servers
+## 3. connect to public test servers
 
 to connect to the test servers, we need the fdrtd client:
 
-* import the fdrtd client library: `import fdrtd`
+    import fdrtd
 
 now, Alice, Bob, and Charlie each acquire the API of their respective servers:
 
-* `api_A = fdrtd.Api(fdrtd.HttpInterface(nodes[0]))`
-* `api_B = fdrtd.Api(fdrtd.HttpInterface(nodes[1]))`
-* `api_C = fdrtd.Api(fdrtd.HttpInterface(nodes[2]))`
+    api_A = fdrtd.Api(nodes[0])
+    api_B = fdrtd.Api(nodes[1])
+    api_C = fdrtd.Api(nodes[2])
 
-## 3. start a secure computation task
+## 4. start a secure computation task
 
 we will be using the 'Simon' microservice for this exercise. Simon stands for (SI)mple (M)ultiparty computati(ON),
 a propaedeutic version of a secure multiparty computation protocol:
@@ -100,7 +116,7 @@ Alice is going ahead and is creating a task:
 
 * `task_A = protocol_A.create(microprotocol="SecureSum", network=network_A)`
 
-## 4. invite others to join your task
+## 5. invite others to join your task
 
 so that Alice, Bob, and Charlie work on the same task, Alice needs to invite Bob and Charlie to join hers:
 
@@ -111,7 +127,7 @@ Bob and Charlie can use this handle to create matching tasks on their servers:
 * `task_B = protocol_B.join(invitation=invitation, network=network_B)`
 * `task_C = protocol_C.join(invitation=invitation, network=network_C)`
 
-## 5. provide private input to a tast
+## 6. provide private input to a tast
 
 Alice, Bob, and Charlie send data to their respective servers and input it into the joint calculation:
 
@@ -127,7 +143,7 @@ Alice, Bob, and Charlie send data to their respective servers and input it into 
 * `task_B.input(source=data_B)`
 * `task_C.input(source=data_C)`
 
-## 6. query the result of a task
+## 7. query the result of a task
 
 now, Alice, Bob, and Charlie can each query their own server for the result of the joint calculation:
 
@@ -137,7 +153,7 @@ now, Alice, Bob, and Charlie can each query their own server for the result of t
 
 there should be a total of 3 parties ('inputs') providing 3 samples (1 each) and the sum would be 31.
 
-## cleanup
+## 8. cleanup
 
 always clean up your sensitive data:
 
