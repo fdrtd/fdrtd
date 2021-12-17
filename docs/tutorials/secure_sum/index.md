@@ -83,7 +83,7 @@ on Windows, you can start the servers in three separate consoles.
 * run your Python interpreter, e.g. `python`
 * the following commands are entered in the Python console:
 
-    nodes = ["http://127.0.0.1:55501", "http://127.0.0.1:55502", "http://127.0.0.1:55503"]
+    `nodes = ["http://127.0.0.1:55501", "http://127.0.0.1:55502", "http://127.0.0.1:55503"]`
 
 each of them considers one of the nodes their own:
 
@@ -95,7 +95,7 @@ each of them considers one of the nodes their own:
 
 to connect to the test servers, we need the fdrtd client:
 
-    import fdrtd
+    import fdrtd.clients.python
 
 now, Alice, Bob, and Charlie each acquire the API of their respective servers:
 
@@ -120,7 +120,7 @@ Alice is going ahead and is creating a task:
 
 so that Alice, Bob, and Charlie work on the same task, Alice needs to invite Bob and Charlie to join hers:
 
-    invitation = task_A.invite()
+    invitation = api_A.download(task_A.invite())
 
 Bob and Charlie can use this handle to create matching tasks on their servers:
 
@@ -148,6 +148,43 @@ now, Alice, Bob, and Charlie can each query their own server for the result of t
     print(api_C.download(task_C.result()))
 
 there should be a total of 3 parties ('inputs') providing 3 samples (1 each) and the sum would be 31.
+
+## complete code
+
+    import fdrtd.clients.python
+
+    nodes = ["http://127.0.0.1:55501", "http://127.0.0.1:55502", "http://127.0.0.1:55503"]
+
+    network_A = {'nodes': nodes, 'myself': 0}
+    network_B = {'nodes': nodes, 'myself': 1}
+    network_C = {'nodes': nodes, 'myself': 2}
+
+    api_A = fdrtd.clients.python.Api(nodes[0])
+    api_B = fdrtd.clients.python.Api(nodes[1])
+    api_C = fdrtd.clients.python.Api(nodes[2])
+
+    protocol_A = api_A.create(protocol="Simon")
+    protocol_B = api_B.create(protocol="Simon")
+    protocol_C = api_C.create(protocol="Simon")
+
+    task_A = protocol_A.create_task(microprotocol="SecureSum", network=network_A)
+
+    invitation = api_A.download(task_A.invite())
+
+    task_B = protocol_B.join_task(invitation=invitation, network=network_B)
+    task_C = protocol_C.join_task(invitation=invitation, network=network_C)
+
+    task_A.input(data=10)
+    task_B.input(data=7)
+    task_C.input(data=14)
+
+    task_A.start()
+    task_B.start()
+    task_C.start()
+
+    print(api_A.download(task_A.result()))
+    print(api_B.download(task_B.result()))
+    print(api_C.download(task_C.result()))
 
 ## conclusion
 
