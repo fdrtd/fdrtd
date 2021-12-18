@@ -25,7 +25,9 @@ a modern microservice architecture for privacy-preserving computation:
 - [x] OpenAPI 3.0 standard for 3rd party developers (plug & play extensions)
 
 
-# installation
+# server-side installation
+
+## without docker
 
 to install `fdrtd` on the server, use `pip` or a similar tool: `pip install fdrtd`
 
@@ -33,28 +35,22 @@ to run the server, execute the module and provide a port: `python -m fdrtd.webse
 
 once the server is up, a list of available services can be found at [localhost:55500/representations](http://localhost:55500/representations)
 
-Run one server in a detached docker container:
+## with docker
+
+use the [Docker](https://github.com/fdrtd/fdrtd/tree/main/packages/docker/Docker)
+file in [/packages/docker/](https://github.com/fdrtd/fdrtd/tree/main/packages/docker/)
+to run one server in a detached docker container, e.g. on port 55500:
 
 ```console
 docker build -t webserver .
 docker run -d -p 55500:55500 --name webserver webserver
 ```
 
-Stop the container: `docker kill webserver`
+stop the container with `docker kill webserver`. there is also a sample configuration [docker-compose.yml](https://github.com/fdrtd/fdrtd/tree/main/packages/docker/docker-compose.yml)
+for three servers at ports 55501, 55502, and 55503. run these with `docker-compose up` and stop them with `docker-compose down`
 
 
-Run three servers in three separate docker containers:
-
-```console
-docker-compose up
-```
-
-Stop the containers: `docker-compose down`
-
-
-
-
-# usage
+# client-side usage
 
 to install `fdrtd` on the client, use `pip` or a similar tool: `pip install fdrtd`
 
@@ -84,6 +80,6 @@ please [open an issue](https://github.com/fdrtd/fdrtd/issues/new)
 # license
 
 `fdrtd` is free and open source software under the MIT license.
-see the [`LICENSE`](https://github.com/fdrtd/fdrtd/tree/main/LICENSE) file for more information.
+see the [LICENSE](https://github.com/fdrtd/fdrtd/tree/main/LICENSE) file for more information.
 
 `fdrtd` is a registered trademark by [bytes for life GmbH](https://www.bytesforlife.com), Munich, Germany.
