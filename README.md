@@ -33,6 +33,26 @@ to run the server, execute the module and provide a port: `python -m fdrtd.webse
 
 once the server is up, a list of available services can be found at [localhost:55500/representations](http://localhost:55500/representations)
 
+Run one server in a detached docker container:
+
+```console
+docker build -t webserver .
+docker run -d -p 55500:55500 --name webserver webserver
+```
+
+Stop the container: `docker kill webserver`
+
+
+Run three servers in three separate docker containers:
+
+```console
+docker-compose up
+```
+
+Stop the containers: `docker-compose down`
+
+
+
 
 # usage
 
