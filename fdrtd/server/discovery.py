@@ -48,7 +48,7 @@ def discover_microservices(bus):
             try:
                 for item in getattr(module, "get_classes")():
                     uuid = str(_uuid.uuid4())
-                    classes[uuid] = {**item, 'instance': item['class']()}
+                    classes[uuid] = item
             except AttributeError:
                 pass
     return microservices, classes
