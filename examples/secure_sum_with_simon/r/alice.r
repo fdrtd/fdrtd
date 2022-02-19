@@ -1,5 +1,5 @@
 library(devtools)
-source_url("https://raw.githubusercontent.com/fdrtd/fdrtd/main/fdrtd/clients/r/fdrtd.r")
+source_url("https://raw.githubusercontent.com/fdrtd/client-r/main/src/fdrtd.r")
 
 source("shared.r")
 
