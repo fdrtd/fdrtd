@@ -57,9 +57,9 @@ to install `fdrtd` on the client, use `pip` or a similar tool: `pip install fdrt
 for example, view the list of available servers:
 
 ```python
-import fdrtd.clients.python
+import fdrtd.client
 
-api = fdrtd.clients.python.Api("http://localhost:55500")
+api = fdrtd.client.Api("http://localhost:55500")
 list_of_services = api.list()
 print(list_of_services)
 ```

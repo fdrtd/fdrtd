@@ -95,13 +95,13 @@ each of them considers one of the nodes their own:
 
 to connect to the test servers, we need the fdrtd client:
 
-    import fdrtd.clients.python
+    import fdrtd.client
 
 now, Alice, Bob, and Charlie each acquire the API of their respective servers:
 
-    api_A = fdrtd.clients.python.Api(nodes[0])
-    api_B = fdrtd.clients.python.Api(nodes[1])
-    api_C = fdrtd.clients.python.Api(nodes[2])
+    api_A = fdrtd.client.Api(nodes[0])
+    api_B = fdrtd.client.Api(nodes[1])
+    api_C = fdrtd.client.Api(nodes[2])
 
 ## 4. start a secure computation task
 
@@ -151,7 +151,7 @@ there should be a total of 3 parties ('inputs') providing 3 samples (1 each) and
 
 ## complete code
 
-    import fdrtd.clients.python
+    import fdrtd.client
 
     nodes = ["http://127.0.0.1:55501", "http://127.0.0.1:55502", "http://127.0.0.1:55503"]
 
@@ -159,9 +159,9 @@ there should be a total of 3 parties ('inputs') providing 3 samples (1 each) and
     network_B = {'nodes': nodes, 'myself': 1}
     network_C = {'nodes': nodes, 'myself': 2}
 
-    api_A = fdrtd.clients.python.Api(nodes[0])
-    api_B = fdrtd.clients.python.Api(nodes[1])
-    api_C = fdrtd.clients.python.Api(nodes[2])
+    api_A = fdrtd.client.Api(nodes[0])
+    api_B = fdrtd.client.Api(nodes[1])
+    api_C = fdrtd.client.Api(nodes[2])
 
     protocol_A = api_A.create(protocol="Simon")
     protocol_B = api_B.create(protocol="Simon")
