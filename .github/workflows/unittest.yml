@@ -1,6 +1,6 @@
 name: unittest
 
-on: [push]
+on: [push, workflow_dispatch]
 
 jobs:
   test:
@@ -16,7 +16,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install representation anybadge
+        pip install fdrtd anybadge
     - name: Run unit tests
       continue-on-error: true
       run: |
