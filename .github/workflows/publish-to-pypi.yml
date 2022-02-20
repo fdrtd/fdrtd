@@ -12,12 +12,12 @@ jobs:
       - name: build wheel
         working-directory: .
         run: |
-          cp -r fdrtd packages/pypi/fdrtd
-          cd packages/pypi/fdrtd
+          cp -r fdrtd pypi
+          cd pypi
           python setup.py sdist bdist_wheel
       - name: publish package
         uses: pypa/gh-action-pypi-publish@master
         with:
           user: __token__
-          password: ${{ secrets.PYPI_API_TOKEN_FDRTD }}
-          packages_dir: packages/pypi/fdrtd/dist
+          password: ${{ secrets.PYPI_FDRTD_SERVER }}
+          packages_dir: pypi/dist
