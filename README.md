@@ -36,6 +36,6 @@ the team is also thankful for administrative and technical support by [LMU](http
 # license
 
 `fdrtd` is free and open source software under the MIT license.
-see the [LICENSE](https://github.com/fdrtd/fdrtd/tree/main/LICENSE) file for more information.
+see the [LICENSE](https://github.com/fdrtd/server/tree/main/LICENSE) file for more information.
 
 `fdrtd` is a registered trademark by [bytes for life GmbH](https://www.bytesforlife.com), Munich, Germany.
