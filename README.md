@@ -1,5 +1,5 @@
 ![license](https://img.shields.io/github/license/fdrtd/server)
-![swagger-validator](https://img.shields.io/swagger/valid/3.0?specUrl=https%3A%2F%2Fraw.githubusercontent.com%2Ffdrtd%2Fserver%2Fmain%2Fapi%2Fopenapi.yaml)
+![swagger-validator](https://img.shields.io/swagger/valid/3.0?specUrl=https%3A%2F%2Fraw.githubusercontent.com%2Ffdrtd%2Fserver%2Fmain%2Fopenapi%2Ffdrtd.yaml)
 ![CodeQL](https://github.com/fdrtd/server/workflows/CodeQL/badge.svg)
 ![unittest](https://raw.githubusercontent.com/fdrtd/server/main/.github/badges/tests.svg)
 ![Pylint](https://raw.githubusercontent.com/fdrtd/server/main/.github/badges/pylint.svg)
