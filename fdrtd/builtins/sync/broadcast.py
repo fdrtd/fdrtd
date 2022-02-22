@@ -6,7 +6,7 @@ contains microservice Broadcast
 class Broadcast:
     """synchronizes parties through broadcasts"""
 
-    def __init__(self, bus, endpoint):
+    def __init__(self):
         self.storage = {}
 
     def create(self, uuid):

@@ -6,7 +6,7 @@ contains microservice KeyValueStorage
 class KeyValueStorage:
     """stores and retrieves values by key"""
 
-    def __init__(self, bus, endpoint):
+    def __init__(self):
         self.storages = {'default': {}}
 
     def create(self, storage='default'):

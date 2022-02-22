@@ -6,7 +6,7 @@ contains microservice Barrier and its instances
 class Barrier:
     """synchronizes parties through barriers"""
 
-    def __init__(self, bus, endpoint):
+    def __init__(self):
         self.storage = {}
 
     def create(self, uuid):

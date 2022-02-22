@@ -8,9 +8,9 @@ import fdrtd.builtins
 import fdrtd.plugins
 
 
-def import_microservice(item, bus, uuid):
+def import_microservice(item):
     """import a microservice and its public and private functions"""
-    instance = item['class'](bus, uuid)
+    instance = item['class']()
     public = {}
     if 'public' in item:
         public.update({function: getattr(instance, function)
@@ -42,7 +42,7 @@ def discover_microservices(bus):
             try:
                 for item in getattr(module, "get_microservices")():
                     uuid = str(_uuid.uuid4())
-                    microservices[uuid] = import_microservice(item, bus, uuid)
+                    microservices[uuid] = import_microservice(item)
             except AttributeError:
                 pass
             try:
