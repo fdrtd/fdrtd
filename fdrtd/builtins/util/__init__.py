@@ -1,7 +1,7 @@
 from fdrtd.builtins.util.kvstorage import KeyValueStorage
 
 
-def get_microservices():
+def get_classes():
     return [
         {
             "identifiers": {
@@ -10,7 +10,6 @@ def get_microservices():
                 "version": "0.3.0",
                 "microservice": "KeyValueStorage"
             },
-            "class": KeyValueStorage,
-            "public": ["create", "delete"]
+            "class": KeyValueStorage()
         }
     ]
