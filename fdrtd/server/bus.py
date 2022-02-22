@@ -3,7 +3,7 @@
 import uuid as _uuid
 
 import fdrtd.server.exceptions
-from fdrtd.server.discovery import discover_microservices
+from fdrtd.server.discovery import discover_builtins_and_plugins
 
 
 class Bus:
@@ -11,18 +11,8 @@ class Bus:
 
     def __init__(self):
         """initialize the bus"""
-        self.microservices = {}
-        self.classes = {}
         self.lut_uuid_to_repr = {}
-        self.microservices, self.classes = discover_microservices(self)
-
-    def set_microservices(self, microservices):
-        """set microservices discovered on server startup (internal use only)"""
-        self.microservices = microservices
-
-    def set_classes(self, classes):
-        """set representations discovered on server startup (internal use only)"""
-        self.classes = classes
+        self.root_objects = discover_builtins_and_plugins()
 
     def get_argument(self, arg):
         if isinstance(arg, dict):
@@ -41,9 +31,8 @@ class Bus:
     def list_representations(self):
         """list available server-side objects"""
         result = []
-        for _, microservice in self.microservices.items():
-            result.append({'identifiers': microservice['identifiers'],
-                           'public': list(microservice['public'].keys())})
+        for _, microservice in self.root_objects.items():
+            result.append(microservice['identifiers'])
         return result
 
     def create_representation(self, body):
@@ -58,16 +47,10 @@ class Bus:
                     return False
             return True
 
-        for uuid, microservice in self.microservices.items():
+        for uuid, microservice in self.root_objects.items():
             if test(microservice['identifiers']):
                 if uuid not in self.lut_uuid_to_repr:
                     self.lut_uuid_to_repr[uuid] = microservice
-                return uuid
-
-        for uuid, class_descriptor in self.classes.items():
-            if test(class_descriptor['identifiers']):
-                if uuid not in self.lut_uuid_to_repr:
-                    self.lut_uuid_to_repr[uuid] = class_descriptor['class']
                 return uuid
 
         raise fdrtd.server.exceptions.MicroserviceNotFound(requirements)
@@ -105,25 +88,18 @@ class Bus:
     def create_attribute(self, representation_uuid, attribute_name, public=False):
         """create a representation of an attribute of a representation"""
 
-        if representation_uuid in self.microservices:
-            instance = self.microservices[representation_uuid]
-        else:
-            instance = self.lut_uuid_to_repr[representation_uuid]
+        if public and attribute_name[0] == '_':  # public access to private/hidden member
+            raise fdrtd.server.exceptions.FunctionNotPublic(attribute_name)
 
-        if isinstance(instance, dict):
-            if attribute_name in instance['public']:
-                pointer = instance['public'][attribute_name]
-            elif public:
-                raise fdrtd.server.exceptions.FunctionNotPublic(attribute_name)
-            elif attribute_name in instance['private']:
-                pointer = instance['private'][attribute_name]
-            else:
-                raise fdrtd.server.exceptions.FunctionNotFound(attribute_name)
+        if representation_uuid in self.root_objects:
+            object = self.root_objects[representation_uuid]['object']
         else:
-            try:
-                pointer = getattr(instance, attribute_name)
-            except KeyError as key_error:
-                raise fdrtd.server.exceptions.FunctionNotFound(attribute_name) from key_error
+            object = self.lut_uuid_to_repr[representation_uuid]
+
+        try:
+            pointer = getattr(object, attribute_name)
+        except KeyError as key_error:
+            raise fdrtd.server.exceptions.FunctionNotFound(attribute_name) from key_error
 
         uuid = str(_uuid.uuid4())
         self.lut_uuid_to_repr[uuid] = pointer

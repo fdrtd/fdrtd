@@ -2,7 +2,7 @@ from fdrtd.builtins.sync.barrier import Barrier
 from fdrtd.builtins.sync.broadcast import Broadcast
 
 
-def get_classes():
+def list_root_objects():
     return [
         {
             "identifiers": {
@@ -11,7 +11,7 @@ def get_classes():
                 "version": "0.3.0",
                 "microservice": "Barrier"
             },
-            "class": Barrier()
+            "object": Barrier()
         },
         {
             "identifiers": {
@@ -20,6 +20,6 @@ def get_classes():
                 "version": "0.3.0",
                 "microservice": "Broadcast"
             },
-            "class": Broadcast()
+            "object": Broadcast()
         }
     ]
