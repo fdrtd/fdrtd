@@ -2,14 +2,11 @@
 contains microservice KeyValueStorage
 """
 
-from fdrtd.server.microservice import Microservice
 
-
-class KeyValueStorage(Microservice):
+class KeyValueStorage:
     """stores and retrieves values by key"""
 
     def __init__(self, bus, endpoint):
-        super().__init__(bus, endpoint)
         self.storages = {'default': {}}
 
     def create(self, storage='default'):

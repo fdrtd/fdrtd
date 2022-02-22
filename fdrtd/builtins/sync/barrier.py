@@ -2,16 +2,11 @@
 contains microservice Barrier and its instances
 """
 
-import uuid as _uuid
 
-from fdrtd.server.microservice import Microservice
-
-
-class Barrier(Microservice):
+class Barrier:
     """synchronizes parties through barriers"""
 
     def __init__(self, bus, endpoint):
-        super().__init__(bus, endpoint)
         self.storage = {}
 
     def create(self, uuid):

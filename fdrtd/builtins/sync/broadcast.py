@@ -2,16 +2,11 @@
 contains microservice Broadcast
 """
 
-import uuid as _uuid
 
-from fdrtd.server.microservice import Microservice
-
-
-class Broadcast(Microservice):
+class Broadcast:
     """synchronizes parties through broadcasts"""
 
     def __init__(self, bus, endpoint):
-        super().__init__(bus, endpoint)
         self.storage = {}
 
     def create(self, uuid):
