@@ -7,7 +7,7 @@ def list_root_objects():
             "identifiers": {
                 "namespace": "fdrtd",
                 "plugin": "Util",
-                "version": "0.3.0",
+                "version": "0.5.2",
                 "microservice": "KeyValueStorage"
             },
             "object": KeyValueStorage()

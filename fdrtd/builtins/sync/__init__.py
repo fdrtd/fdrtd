@@ -8,7 +8,7 @@ def list_root_objects():
             "identifiers": {
                 "namespace": "fdrtd",
                 "plugin": "Sync",
-                "version": "0.3.0",
+                "version": "0.5.2",
                 "microservice": "Barrier"
             },
             "object": Barrier()
@@ -17,7 +17,7 @@ def list_root_objects():
             "identifiers": {
                 "namespace": "fdrtd",
                 "plugin": "Sync",
-                "version": "0.3.0",
+                "version": "0.5.2",
                 "microservice": "Broadcast"
             },
             "object": Broadcast()
