@@ -11,6 +11,7 @@ class TestKeyValueStorage(TestAssertions):
         api = TestApi(interface=interface)
 
         microservice = api.create(microservice='KeyValueStorage')
-        item = microservice.create(value=42, storage='TestStorage')
-        value = api.download(item.retrieve())
+        kvstorage = microservice.create(storage='TestStorage')
+        kvstorage.store(key='meaning', value=42)
+        value = api.download(kvstorage.retrieve('meaning'))
         self.assertEqual(value, 42)

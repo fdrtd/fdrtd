@@ -2,8 +2,6 @@
 contains microservice KeyValueStorage
 """
 
-import uuid as _uuid
-
 from fdrtd.server.microservice import Microservice
 
 
@@ -14,32 +12,35 @@ class KeyValueStorage(Microservice):
         super().__init__(bus, endpoint)
         self.storages = {'default': {}}
 
-    def create(self, value, storage='default'):
-        """create a storage; store value, return key"""
+    def create(self, storage='default'):
+        """create a storage"""
         if storage not in self.storages:
-            self.storages[storage] = {}
-        uuid = str(_uuid.uuid4())
-        callback = {'uuid': uuid, 'storage': storage}
-        self.store(value, callback)
-        return self.callback(callback)
+            self.storages[storage] = KVStorage()
+        return self.storages[storage]
 
-    def store(self, value, callback):
+    def delete(self, storage='default'):
+        """delete a storage"""
+        del self.storages[storage]
+        return None
+
+
+class KVStorage:
+
+    def __init__(self):
+        self.storage = {}
+
+    def store(self, key, value):
         """store value, return key"""
-        kvstorage = self.storages[callback['storage']]
-        kvstorage[callback['uuid']] = value
+        self.storage[key] = value
 
-    def retrieve(self, callback):
+    def retrieve(self, key):
         """retrieve value from storage"""
-        kvstorage = self.storages[callback['storage']]
-        value = kvstorage[callback['uuid']]
-        return value
+        return self.storage.get(key, None)
 
-    def exists(self, callback):
+    def exists(self, key):
         """return true if key exists in storage"""
-        kvstorage = self.storages[callback['storage']]
-        return callback['uuid'] in kvstorage
+        return key in self.storage
 
-    def delete(self, callback):
+    def delete(self, key):
         """delete key from storage"""
-        kvstorage = self.storages[callback['storage']]
-        del kvstorage[callback['uuid']]
+        del self.storage[key]

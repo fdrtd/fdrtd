@@ -11,6 +11,6 @@ def get_microservices():
                 "microservice": "KeyValueStorage"
             },
             "class": KeyValueStorage,
-            "public": ["create", "store", "retrieve", "exists", "delete"]
+            "public": ["create", "delete"]
         }
     ]
