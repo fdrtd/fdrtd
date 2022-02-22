@@ -14,28 +14,19 @@ class Broadcast(Microservice):
         super().__init__(bus, endpoint)
         self.storage = {}
 
-    def create(self, tokens):
+    def create(self, uuid):
         """creates a new broadcast"""
-        uuid = Broadcast._create_deterministic_uuid(tokens)
-        return self.callback(uuid)
+        self.storage[uuid] = None
+        return None
 
-    def send(self, callback, message):
+    def send(self, uuid, message):
         """stores a message to be broadcasted"""
-        self.storage[callback] = message
+        self.storage[uuid] = message
 
-    def receive(self, callback):
+    def receive(self, uuid):
         """retrieves a broadcasted message"""
-        return self.storage.get(callback, None)
+        return self.storage.get(uuid, None)
 
-    def delete(self, callback):
+    def delete(self, uuid):
         """deletes a broadcast"""
-        del self.storage[callback]
-
-    @staticmethod
-    def _create_deterministic_uuid(tokens):
-        uuid = _uuid.UUID('fede1a7e-0010-4e73-865d-a8e55a223b63')
-        uuid = _uuid.uuid5(uuid, 'Broadcast')
-        if tokens is not None:
-            for token in tokens:
-                uuid = _uuid.uuid5(uuid, token)
-        return str(uuid)
+        del self.storage[uuid]

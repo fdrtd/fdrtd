@@ -14,9 +14,8 @@ class Barrier(Microservice):
         super().__init__(bus, endpoint)
         self.storage = {}
 
-    def create(self, tokens):
+    def create(self, uuid):
         """creates a new barrier"""
-        uuid = Barrier._create_deterministic_uuid(tokens)
         if uuid not in self.storage:
             self.storage[uuid] = BarrierInstance()
         return self.storage[uuid]
@@ -24,15 +23,6 @@ class Barrier(Microservice):
     def delete(self, uuid):
         """deletes a barrier"""
         del self.storage[uuid]
-
-    @staticmethod
-    def _create_deterministic_uuid(tokens):
-        uuid = _uuid.UUID('fede1a7e-0010-4e73-865d-a8e55a223b63')
-        uuid = _uuid.uuid5(uuid, 'Barrier')
-        if tokens is not None:
-            for token in tokens:
-                uuid = _uuid.uuid5(uuid, token)
-        return str(uuid)
 
 
 class BarrierInstance:
