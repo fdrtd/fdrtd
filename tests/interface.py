@@ -1,14 +1,10 @@
 from fdrtd.server.bus import Bus
-from fdrtd.server.discovery import discover_microservices
 
 
 class TestInterface:
 
     def __init__(self):
         self.bus = Bus()
-        microservices, classes = discover_microservices(self.bus)
-        self.bus.set_microservices(microservices)
-        self.bus.set_classes(classes)
 
     def post(self, *path, body=None):
         if len(path) == 1:

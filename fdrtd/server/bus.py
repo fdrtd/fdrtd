@@ -3,6 +3,7 @@
 import uuid as _uuid
 
 import fdrtd.server.exceptions
+from fdrtd.server.discovery import discover_microservices
 
 
 class Bus:
@@ -13,6 +14,7 @@ class Bus:
         self.microservices = {}
         self.classes = {}
         self.lut_uuid_to_repr = {}
+        self.microservices, self.classes = discover_microservices(self)
 
     def set_microservices(self, microservices):
         """set microservices discovered on server startup (internal use only)"""
