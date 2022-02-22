@@ -9,8 +9,7 @@ class Microservice:
     """base class for microservices"""
 
     def __init__(self, bus, handle):
-        self.bus = bus
-        self.handle = handle
+        pass
 
     @staticmethod
     def make_public():
