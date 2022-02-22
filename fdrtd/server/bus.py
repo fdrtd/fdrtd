@@ -2,7 +2,6 @@
 
 import uuid as _uuid
 
-import fdrtd.server.callback
 import fdrtd.server.exceptions
 
 
@@ -109,11 +108,7 @@ class Bus:
         else:
             instance = self.lut_uuid_to_repr[representation_uuid]
 
-        if isinstance(instance, fdrtd.server.callback.Callback):
-            pointer = {'pointer': self.create_attribute(representation_uuid=instance['handle'],
-                                                        attribute_name=attribute_name),
-                       'callback': instance['callback']}
-        elif isinstance(instance, dict):
+        if isinstance(instance, dict):
             if attribute_name in instance['public']:
                 pointer = instance['public'][attribute_name]
             elif public:

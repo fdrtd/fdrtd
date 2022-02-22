@@ -3,7 +3,6 @@ contains class Microservice
 """
 
 import fdrtd.server.exceptions
-from fdrtd.server.callback import Callback
 
 
 class Microservice:
@@ -12,10 +11,6 @@ class Microservice:
     def __init__(self, bus, handle):
         self.bus = bus
         self.handle = handle
-
-    def callback(self, callback):
-        """create a callback (used by child classes)"""
-        return Callback(self.handle, callback)
 
     @staticmethod
     def make_public():
