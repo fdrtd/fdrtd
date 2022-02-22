@@ -53,7 +53,7 @@ class Bus:
                     self.lut_uuid_to_repr[uuid] = microservice
                 return uuid
 
-        raise fdrtd.server.exceptions.MicroserviceNotFound(requirements)
+        raise fdrtd.server.exceptions.RootObjectNotFound(requirements)
 
     def upload_representation(self, body):
         """upload an object, and return its representation"""
@@ -89,17 +89,17 @@ class Bus:
         """create a representation of an attribute of a representation"""
 
         if public and attribute_name[0] == '_':  # public access to private/hidden member
-            raise fdrtd.server.exceptions.FunctionNotPublic(attribute_name)
+            raise fdrtd.server.exceptions.AttributeNotPublic(attribute_name)
 
         if representation_uuid in self.root_objects:
-            object = self.root_objects[representation_uuid]['object']
+            obj = self.root_objects[representation_uuid]['object']
         else:
-            object = self.lut_uuid_to_repr[representation_uuid]
+            obj = self.lut_uuid_to_repr[representation_uuid]
 
         try:
-            pointer = getattr(object, attribute_name)
+            pointer = getattr(obj, attribute_name)
         except KeyError as key_error:
-            raise fdrtd.server.exceptions.FunctionNotFound(attribute_name) from key_error
+            raise fdrtd.server.exceptions.AttributeNotFound(attribute_name) from key_error
 
         uuid = str(_uuid.uuid4())
         self.lut_uuid_to_repr[uuid] = pointer

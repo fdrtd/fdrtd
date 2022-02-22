@@ -63,24 +63,22 @@ class InvalidIdentifier(ApiError):
         super().__init__(404, f'invalid identifier: {identifier} = {invalid}')
 
 
-class MicroserviceNotFound(ApiError):
-    """this exception is thrown when a microservice does not exist on the bus"""
+class RootObjectNotFound(ApiError):
+    """this exception is thrown when a root object does not exist on the bus"""
 
     def __init__(self, missing):
-        super().__init__(404, f'microservice not available: {missing}')
+        super().__init__(404, f'root object not available: {missing}')
 
 
-class FunctionNotFound(ApiError):
-    """this exception is thrown when a member function of a microservice
-       does not exist"""
-
-    def __init__(self, missing):
-        super().__init__(404, f'function not available: {missing}')
-
-
-class FunctionNotPublic(ApiError):
-    """this exception is thrown when a member function of a microservice
-       exists, but is not public"""
+class AttributeNotFound(ApiError):
+    """this exception is thrown when a member attribute of an object does not exist"""
 
     def __init__(self, missing):
-        super().__init__(403, f'function not public: {missing}')
+        super().__init__(404, f'attribute not available: {missing}')
+
+
+class AttributeNotPublic(ApiError):
+    """this exception is thrown when a hidden/private member attribute of an object is accessed"""
+
+    def __init__(self, missing):
+        super().__init__(403, f'attribute not public: {missing}')
