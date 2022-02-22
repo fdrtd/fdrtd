@@ -11,7 +11,7 @@ import fdrtd.plugins
 def import_microservice(item, bus, uuid):
     """import a microservice and its public and private functions"""
     instance = item['class'](bus, uuid)
-    public = instance.make_public()
+    public = {}
     if 'public' in item:
         public.update({function: getattr(instance, function)
                        for function in item['public']})

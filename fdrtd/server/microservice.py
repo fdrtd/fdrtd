@@ -12,12 +12,6 @@ class Microservice:
         pass
 
     @staticmethod
-    def make_public():
-        """report public functions (will become obsolete!)
-           note that child classes will overload this with make_public(self)"""
-        return {}
-
-    @staticmethod
     def safe_params(params, key):
         """helper routine, throws exception if key is not present in params"""
         if key not in params:
