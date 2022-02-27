@@ -30,30 +30,17 @@ class Bus:
 
     def list_representations(self):
         """list available server-side objects"""
-        result = []
-        for _, microservice in self.registry.root_objects.items():
-            result.append(microservice['identifiers'])
-        return result
+        return self.registry.list_representations()
 
     def create_representation(self, body):
         """create a representation"""
         _, requirements = self.get_arguments(body)
+        uuid, representation = self.registry.get_representation(requirements)
 
-        def test(identifiers):
-            for requirement in requirements:
-                if requirement not in identifiers:
-                    return False
-                if identifiers[requirement] != requirements[requirement]:
-                    return False
-            return True
+        if uuid not in self.lut_uuid_to_repr:
+            self.lut_uuid_to_repr[uuid] = representation
 
-        for uuid, microservice in self.registry.root_objects.items():
-            if test(microservice['identifiers']):
-                if uuid not in self.lut_uuid_to_repr:
-                    self.lut_uuid_to_repr[uuid] = microservice['object']
-                return uuid
-
-        raise fdrtd.server.exceptions.RootObjectNotFound(requirements)
+        return uuid
 
     def upload_representation(self, body):
         """upload an object, and return its representation"""
