@@ -50,7 +50,7 @@ class Bus:
         for uuid, microservice in self.registry.root_objects.items():
             if test(microservice['identifiers']):
                 if uuid not in self.lut_uuid_to_repr:
-                    self.lut_uuid_to_repr[uuid] = microservice
+                    self.lut_uuid_to_repr[uuid] = microservice['object']
                 return uuid
 
         raise fdrtd.server.exceptions.RootObjectNotFound(requirements)
@@ -91,10 +91,11 @@ class Bus:
         if public and attribute_name[0] == '_':  # public access to private/hidden member
             raise fdrtd.server.exceptions.AttributeNotPublic(attribute_name)
 
-        if representation_uuid in self.registry.root_objects:
-            obj = self.registry.root_objects[representation_uuid]['object']
-        else:
+        try:
             obj = self.lut_uuid_to_repr[representation_uuid]
+        except KeyError as key_error:
+            raise fdrtd.server.exceptions.InvalidIdentifier("representation_uuid",
+                                                            representation_uuid) from key_error
 
         try:
             pointer = getattr(obj, attribute_name)
