@@ -7,7 +7,7 @@ def fdrtd_register(registry):
         {
             "namespace": "fdrtd",
             "plugin": "Util",
-            "version": "0.5.2",
+            "version": "0.5.3",
             "microservice": "KeyValueStorage"
         },
         KeyValueStorage()
