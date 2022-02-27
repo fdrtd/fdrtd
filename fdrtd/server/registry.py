@@ -1,10 +1,17 @@
-from fdrtd.server.discovery import discover_builtins_and_plugins
+import fdrtd.server.discovery
 import fdrtd.server.exceptions
+import uuid as _uuid
+
 
 class Registry:
 
     def __init__(self):
-        self.root_objects = discover_builtins_and_plugins()
+        self.root_objects = {}
+        fdrtd.server.discovery.discover_builtins_and_plugins(self)
+
+    def register(self, identifiers, item):
+        uuid = str(_uuid.uuid4())
+        self.root_objects[uuid] = {'identifiers': identifiers, 'object': item}
 
     def list_representations(self):
         """list available server-side objects"""

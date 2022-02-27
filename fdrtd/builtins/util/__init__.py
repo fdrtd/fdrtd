@@ -1,15 +1,14 @@
 from fdrtd.builtins.util.kvstorage import KeyValueStorage
 
 
-def list_root_objects():
-    return [
+def fdrtd_register(registry):
+
+    registry.register(
         {
-            "identifiers": {
-                "namespace": "fdrtd",
-                "plugin": "Util",
-                "version": "0.5.2",
-                "microservice": "KeyValueStorage"
-            },
-            "object": KeyValueStorage()
-        }
-    ]
+            "namespace": "fdrtd",
+            "plugin": "Util",
+            "version": "0.5.2",
+            "microservice": "KeyValueStorage"
+        },
+        KeyValueStorage()
+    )

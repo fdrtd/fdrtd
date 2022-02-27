@@ -2,24 +2,24 @@ from fdrtd.builtins.sync.barrier import Barrier
 from fdrtd.builtins.sync.broadcast import Broadcast
 
 
-def list_root_objects():
-    return [
+def fdrtd_register(registry):
+
+    registry.register(
         {
-            "identifiers": {
-                "namespace": "fdrtd",
-                "plugin": "Sync",
-                "version": "0.5.2",
-                "microservice": "Barrier"
-            },
-            "object": Barrier()
+            "namespace": "fdrtd",
+            "plugin": "Sync",
+            "version": "0.5.2",
+            "microservice": "Barrier"
         },
+        Barrier()
+    )
+
+    registry.register(
         {
-            "identifiers": {
-                "namespace": "fdrtd",
-                "plugin": "Sync",
-                "version": "0.5.2",
-                "microservice": "Broadcast"
-            },
-            "object": Broadcast()
-        }
-    ]
+            "namespace": "fdrtd",
+            "plugin": "Sync",
+            "version": "0.5.2",
+            "microservice": "Broadcast"
+        },
+        Broadcast()
+    )
