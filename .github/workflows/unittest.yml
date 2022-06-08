@@ -16,7 +16,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install fdrtd anybadge
+        pip install representation fdrtd anybadge
     - name: Run unit tests
       continue-on-error: true
       run: |
