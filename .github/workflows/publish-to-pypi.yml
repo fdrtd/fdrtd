@@ -19,5 +19,5 @@ jobs:
         uses: pypa/gh-action-pypi-publish@master
         with:
           user: __token__
-          password: ${{ secrets.PYPI_FDRTD_SERVER }}
+          password: ${{ secrets.PYPI_TOKEN_FDRTD }}
           packages_dir: pypi/dist
