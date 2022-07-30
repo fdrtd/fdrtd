@@ -3,3 +3,15 @@
 ![CodeQL](https://github.com/fdrtd/fdrtd/workflows/CodeQL/badge.svg)
 ![unittest](https://raw.githubusercontent.com/fdrtd/fdrtd/main/.github/badges/tests.svg)
 ![Pylint](https://raw.githubusercontent.com/fdrtd/fdrtd/main/.github/badges/pylint.svg)
+
+# how to use
+
+1. install the fdrtd core middleware
+ 
+```shell
+pip install fdrtd
+```
+
+2. install one or more fdrtd plugins (see e.g. https://github.com/fdrtd/plugin-simon)
+
+3. install and run a server (see e.g. https://github.com/fdrtd/webserver-connexion)
